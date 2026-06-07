@@ -1,14 +1,15 @@
-import { Button } from './components/common/Button';
-import Header from './layout/Header/Header';
+
+import { Header } from './layout/Header';
+import { Login } from './pages/Login';
+
 
 function App() {
+
+
   return (
     <>
       <Header />
-      <div>
-        hello
-      </div>
-      <Button text={"Sign In"} />
+      <Login />
     </>
   );
 }
