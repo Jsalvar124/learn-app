@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap');
+
+:root {
+  /* Primary (purple) */
+  --color-primary: #6355D8;
+  --color-primary-hover: #4D3ED3;
+  --color-primary-pressed: #3D2DC7;
+
+  /* Secondary (green) */
+  --color-secondary: #60CFA5;
+  --color-secondary-hover: #36B584;
+  --color-secondary-pressed: #2F9C72;
+
+  /* Danger (red) */
+  --color-danger: #F22128;
+  --color-danger-hover: #D20C13;
+  --color-danger-pressed: #B90B11;
+
+  /* Neutral */
+  --color-neutral-150: #F8F9FA;
+  --color-neutral-400: #BCC1CA;
+  --color-neutral-450: #A7ADB7;
+  --color-neutral-500: #9095A0;
+  --color-neutral-900: #171A1F;
+
+  /* Fonts */
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+
+  /* Shared */
+  --button-radius: 6px;
+  --input-radius: 6px;
+}
