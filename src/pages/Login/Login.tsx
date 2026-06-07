@@ -7,7 +7,7 @@ import {
   IconLockOutline24,       // lock icon
   IconEye2Outline24,       // show password
   IconEye2SlashOutline24,   // hide password
-  IconCircleHalfDashedCheckOutline24 // Capcha Arrow Icon
+  IconCircleHalfDashedCheckOutline24 // Captcha Arrow Icon
 } from 'nucleo-core-essential-outline-24';
 
 
