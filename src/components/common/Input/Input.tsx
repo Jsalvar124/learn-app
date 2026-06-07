@@ -14,6 +14,7 @@ interface InputProps {
   iconRightTooltip?: string;
   onIconRightClick?: () => void;
   disabled?: boolean;
+  state?: 'default' | 'error' | 'valid';
 }
 
 const Input = ({
@@ -27,6 +28,7 @@ const Input = ({
   iconRightTooltip,
   onIconRightClick,
   disabled = false,
+  state = 'default'
 }: InputProps) => (
   <div className={styles.wrapper}>
     {label && <label className={styles.label}>{label}</label>}
@@ -38,7 +40,7 @@ const Input = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`${styles.input} ${iconRight ? styles.withRightIcon : ''}`}
+        className={`${styles.input} ${state === 'error' ? styles.error : ''} ${state === 'valid' ? styles.valid : ''} ${iconRight ? styles.withRightIcon : ''}`}
       />
       {iconRight && (
         <button className={styles.iconRight} onClick={onIconRightClick} title={iconRightTooltip}>

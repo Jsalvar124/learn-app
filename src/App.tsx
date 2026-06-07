@@ -1,7 +1,7 @@
 
 import { Header } from './layout/Header';
 import { Login } from './pages/Login';
-
+import { Footer } from './layout/Footer';
 
 function App() {
 
@@ -10,6 +10,7 @@ function App() {
     <>
       <Header />
       <Login />
+      <Footer />
     </>
   );
 }

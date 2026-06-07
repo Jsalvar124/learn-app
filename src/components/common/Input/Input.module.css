@@ -29,14 +29,39 @@
   font-weight: 400;
   background: #F3F4F6;
   border-radius: 6px;
-  border: none;
+  border: 1px solid transparent;
   outline: none;
   box-sizing: border-box;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.input:hover { background: #F3F4F6; color: #BCC1CA; }
-.input:focus { background: #FFFFFF; color: #BCC1CA; }
-.input:disabled { background: #F3F4F6; color: #BCC1CA; }
+.input:hover {
+  background: #F3F4F6;
+  border-color: var(--color-neutral-450);
+}
+
+.input:focus {
+  background: #FFFFFF;
+  border-color: var(--color-primary);
+}
+
+.input:disabled {
+  background: #F3F4F6;
+  color: #BCC1CA;
+  border-color: transparent;
+}
+
+.error {
+  background: #FFFFFF;
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.valid {
+  background: #FFFFFF;
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
 
 .iconLeft {
   position: absolute;
