@@ -11,7 +11,7 @@ function App() {
     <>
       <Header />
       {/* <Login /> */}
-      <Registration role='student'/>
+      {/* <Registration role='student'/> */}
       <Registration role='trainer'/>
 
       <Footer />
