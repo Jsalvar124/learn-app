@@ -138,3 +138,22 @@
   z-index: 10;
   border-radius: 6px;
 }
+
+@media (max-width: 600px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .image {
+    display: none;
+  }
+
+  .form {
+    height: auto;
+    width: 100%;
+  }
+}
