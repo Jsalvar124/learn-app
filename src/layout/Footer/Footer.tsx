@@ -1,18 +1,20 @@
 import styles from './Footer.module.css';
 import Logo from '../../assets/Logo';
 import { useState } from 'react';
-import { IconChevronDownOutline24 } from 'nucleo-core-essential-outline-24';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { LanguageMenu } from './components/LanguageMenu';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.top}>
+      <div className={styles.wrapper}>
 
-        <Logo />
+        <div className={styles.logoSection}>
+          <Logo />
+        </div>
 
         <div className={styles.navColumns}>
           <div className={styles.navColumn}>
@@ -48,19 +50,10 @@ const Footer = () => {
           </div>
         </div>
 
-      </div>
+        <div className={styles.divider} />
 
-      <hr className={styles.divider} />
-
-      <div className={styles.bottom}>
-        <div className={styles.languageWrapper}>
-            <select className={styles.language}>
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-            </select>
-            <span className={styles.languageArrow}>
-                <IconChevronDownOutline24 />
-            </span>
+        <div className={styles.languageSection}>
+          <LanguageMenu />
         </div>
 
         <p className={styles.copyright}>
@@ -68,13 +61,11 @@ const Footer = () => {
         </p>
 
         <div className={styles.socialIcons}>
-            {/* Twitter */}
-            <FontAwesomeIcon icon={faTwitter} className={styles.socialIcon} />
-            {/* Facebook */}
-            <FontAwesomeIcon icon={faFacebook} className={styles.socialIcon} />
-            {/* Youtube */}
-            <FontAwesomeIcon icon={faYoutube} className={styles.socialIcon} />
+          <FontAwesomeIcon icon={faTwitter} className={styles.socialIcon} />
+          <FontAwesomeIcon icon={faFacebook} className={styles.socialIcon} />
+          <FontAwesomeIcon icon={faYoutube} className={styles.socialIcon} />
         </div>
+
       </div>
     </footer>
   );

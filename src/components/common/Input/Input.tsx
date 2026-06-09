@@ -40,7 +40,13 @@ const Input = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`${styles.input} ${state === 'error' ? styles.error : ''} ${state === 'valid' ? styles.valid : ''} ${iconRight ? styles.withRightIcon : ''}`}
+        className={`
+            ${styles.input} 
+            ${iconLeft ? styles.withLeftIcon : ''} 
+            ${iconRight ? styles.withRightIcon : ''} 
+            ${state === 'error' ? styles.error : ''} 
+            ${state === 'valid' ? styles.valid : ''}
+        `}      
       />
       {iconRight && (
         <button className={styles.iconRight} onClick={onIconRightClick} title={iconRightTooltip}>

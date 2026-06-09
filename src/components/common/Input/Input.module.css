@@ -100,4 +100,6 @@
   height: 20px;
 }
 
-.withRightIcon { padding-right: 44px; }
+.withLeftIcon {
+  padding-left: 44px;
+}

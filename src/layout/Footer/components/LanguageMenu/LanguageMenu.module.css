@@ -1,0 +1,38 @@
+.languageWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.language {
+  width: 128px;
+  height: 36px;
+  padding: 0 12px;
+  padding-right: 34px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: #EAECEF;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  color: #171A1F;
+}
+
+.languageArrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  color: #171A1F;
+}
+
+.languageArrow svg {
+  width: 16px;
+  height: 16px;
+}
