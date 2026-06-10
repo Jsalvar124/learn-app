@@ -41,6 +41,13 @@
   padding: 0 12px;
 }
 
+.lg {
+  height: 52px;
+  padding: 0 20px;
+  font-size: 18px;
+  line-height: 28px;
+}
+
 /* States */
 .fullWidth { width: 100%; }
 .disabled { opacity: 0.4; pointer-events: none; }

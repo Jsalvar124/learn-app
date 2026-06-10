@@ -3,6 +3,7 @@ import styles from './Header.module.css';
 import Logo from '../../assets/Logo';
 import { Button } from '../../components/common/Button';
 import { IconXmarkOutline24 } from 'nucleo-core-essential-outline-24';
+import heroImg from '../../assets/hero.png';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,7 +37,7 @@ const Header = () => {
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
         <div className={styles.mobileMenuUser}>
           <div className={styles.avatar}>
-            <img src="/src/assets/hero.png" alt="user" />
+            <img src={heroImg} alt="user" />
           </div>
           <div className={styles.userInfo}>
             <span className={styles.userName}>John_12</span>

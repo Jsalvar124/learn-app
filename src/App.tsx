@@ -3,21 +3,17 @@ import { Header } from './layout/Header';
 import { Login } from './pages/Login';
 import { Footer } from './layout/Footer';
 import { Registration } from './pages/Registration';
-import * as Icons from 'nucleo-core-essential-outline-24';
-
+import { JoinUs } from './pages/JoinUs';
 function App() {
-console.log(Object.keys(Icons).filter(name => 
-  name.toLowerCase().includes('ellipsis') || 
-  name.toLowerCase().includes('more') ||
-  name.toLowerCase().includes('circle')
-));
   return (
     <>
       <Header />
+      <JoinUs />
       {/* <Login /> */}
-      <Registration role='student'/>
+      {/* <Registration role='student'/> */}
       {/* <Registration role='trainer'/> */}
       <Footer />
+      
     </>
   );
 }

@@ -3,7 +3,7 @@ import styles from './Button.module.css';
 interface ButtonProps {
   text: string;
   variant?: 'prime' | 'secondary' | 'important';
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   disabled?: boolean;
   onClick?: () => void;

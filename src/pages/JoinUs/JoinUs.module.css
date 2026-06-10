@@ -1,0 +1,36 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 64px 132px;
+  gap: 32px;
+  background: #FFFFFF;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  line-height: 78px;
+  font-weight: 700;
+  color: #171A1F;
+  align-self: center;
+}
+
+.boxes {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px 16px;
+    gap: 24px;
+  }
+
+  .title {
+    font-size: 40px;
+    line-height: 56px;
+  }
+}

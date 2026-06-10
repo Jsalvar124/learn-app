@@ -4,9 +4,12 @@ import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { IconChevronDownOutline24 } from 'nucleo-core-essential-outline-24';
 import { RegistrationSuccess } from './components/RegistrationSuccess';
+import type { Role } from '../../types';
+import trainerImg from '../../assets/trainer-registration.png';
+import studentImg from '../../assets/student-registration.png';
 
 interface RegistrationProps {
-  role: 'student' | 'trainer';
+  role: Role;
 }
 
 const Registration = ({ role }: RegistrationProps) => {
@@ -71,7 +74,7 @@ const Registration = ({ role }: RegistrationProps) => {
 
           <div className={styles.content}>
             <img
-              src={role === 'trainer' ? "/src/assets/trainer-registration.png" : "/src/assets/student-registration.png"}
+              src={role === 'trainer' ? trainerImg : studentImg}
               alt="registration"
               className={styles.image}
             />
