@@ -32,6 +32,7 @@
   display: flex;
   gap: 64px;
   align-items: flex-start;
+  justify-content: center;
 }
 
 .image {
@@ -48,6 +49,7 @@
   justify-content: space-between;
   gap: 16px;
   height: 400px; /** same as image **/
+  /* max-width: 600px; */
 }
 
 .fields {
