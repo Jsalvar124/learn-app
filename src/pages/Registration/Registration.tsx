@@ -7,8 +7,8 @@ import { RegistrationSuccess } from './components/RegistrationSuccess';
 import type { Role } from '../../types';
 import trainerImg from '../../assets/trainer-registration.png';
 import studentImg from '../../assets/student-registration.png';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import dayjs from 'dayjs';
 
 
 interface RegistrationProps {

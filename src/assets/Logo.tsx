@@ -1,7 +1,7 @@
 
 import styles from './Logo.module.css';
 const Logo = () => (
-  <a href='/' className={styles.container}>
+  <a href='/learn-app/' className={styles.container}> 
     <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
