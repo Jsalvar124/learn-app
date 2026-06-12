@@ -1,0 +1,40 @@
+.page {
+  padding: 48px 92px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  text-align: center;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  gap: 64px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.top > * {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.actionsLeft {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
