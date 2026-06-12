@@ -10,7 +10,7 @@ import studentImg from '../../assets/student-registration.png';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
-import { SuccessToast } from '../../components/common/SuccessToast';
+// import { SuccessToast } from '../../components/common/SuccessToast';
 
 interface RegistrationProps {
   role: Role;
