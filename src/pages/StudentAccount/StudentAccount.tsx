@@ -6,9 +6,36 @@ import { Button } from '../../components/common/Button';
 import { Trainings } from './components/Trainings';
 import { useState } from 'react';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
+import { EditProfile } from './components/EditProfile';
 
 const StudentAccount = () => {
-      const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [profile, setProfile] = useState({
+        avatar: avatar,
+        firstName: 'Marta',
+        lastName: 'Black',
+        userName: 'Marta_st',
+        dateOfBirth: '01.01.2001',
+        address: '123 Main Street Boston, MA 02108',
+        email: 'marta_12334@gmail.com',
+        active: true,
+    });
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    if (isEditing) {
+        return (
+        <div className={styles.page}>
+            <h1 className={styles.title}>My Account</h1>
+            <EditProfile 
+                {...profile}
+                onCancel={() => setIsEditing(false)} 
+                onSave={(data) => {
+                    setProfile(prev => ({ ...prev, ...data }));
+                    setIsEditing(false);
+                }}
+                />
+        </div>
+        );
+    }
 
     return(
     <div className={styles.page}>
@@ -16,14 +43,7 @@ const StudentAccount = () => {
         <div className={styles.top}>
             {/* Student Profile */}
             <Profile
-                avatar={avatar}
-                status="Active"
-                firstName="Marta"
-                lastName="Black"
-                userName="Marta_st"
-                dateOfBirth="01.01.2001"
-                address="123 Main Street Boston, MA 02108"
-                email="marta_12334@gmail.com"
+                {...profile}
             />
             {/* Student Trainers */}
             <Trainers
@@ -39,7 +59,7 @@ const StudentAccount = () => {
         </div>
         <div className={styles.actions}>
             <div className={styles.actionsLeft}>
-                <Button text="Edit profile" variant="prime" onClick={() => console.log('edit profile')} />
+                <Button text="Edit profile" variant="prime" onClick={() => setIsEditing(true)} />
                 <Button text="Change Password" variant="secondary" onClick={() => console.log('change password')} />
             </div>
             <Button text="Delete profile" variant="important" onClick={() => setDeleteModalOpen(true)} />

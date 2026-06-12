@@ -2,16 +2,16 @@ import styles from './Profile.module.css';
 
 interface ProfileProps {
   avatar: string;
-  status: string;
   firstName: string;
   lastName: string;
   userName: string;
   dateOfBirth?: string;
   address?: string;
   email: string;
+  active: boolean;
 }
 
-const Profile = ({avatar, status, firstName, lastName, userName, dateOfBirth, address, email}: ProfileProps) => {
+const Profile = ({avatar, firstName, lastName, userName, dateOfBirth, address, email, active}: ProfileProps) => {
     
     return(
     <div className={styles.container}>
@@ -23,7 +23,9 @@ const Profile = ({avatar, status, firstName, lastName, userName, dateOfBirth, ad
         </div>
         <div className={styles.status}>
             <span className={styles.statusLabel}>Status</span>
-            <span className={styles.statusValue}>✓ {status}</span>
+            <span className={`${styles.statusValue} ${active ? styles.statusActive : styles.statusInactive}`}>
+                {active ? '✓ Active' : '✕ Inactive'}
+            </span>
         </div>
         </div>
 

@@ -51,8 +51,15 @@
 .statusValue {
   font-family: var(--font-body);
   font-size: 14px;
-  color: var(--color-secondary);
   font-weight: 500;
+}
+
+.statusActive {
+  color: var(--color-secondary);
+}
+
+.statusInactive {
+  color: var(--color-danger);
 }
 
 .fields {
