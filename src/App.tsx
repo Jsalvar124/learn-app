@@ -2,8 +2,8 @@
 import { Header } from './layout/Header';
 // import { Login } from './pages/Login';
 import { Footer } from './layout/Footer';
-import { JoinUs } from './pages/JoinUs';
-// import { StudentAccount } from './pages/StudentAccount';
+// import { JoinUs } from './pages/JoinUs';
+import { StudentAccount } from './pages/StudentAccount';
 
 
 function App() {
@@ -13,8 +13,8 @@ function App() {
       <main className="main">
         {/* page content */}
         {/* <Login /> */}
-        {/* <StudentAccount /> */}
-        <JoinUs />
+        <StudentAccount />
+        {/* <JoinUs /> */}
       </main>
       <Footer />
     </div>

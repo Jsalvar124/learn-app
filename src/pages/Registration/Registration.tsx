@@ -9,7 +9,8 @@ import trainerImg from '../../assets/trainer-registration.png';
 import studentImg from '../../assets/student-registration.png';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // import dayjs from 'dayjs';
-
+import toast from 'react-hot-toast';
+import { SuccessToast } from '../../components/common/SuccessToast';
 
 interface RegistrationProps {
   role: Role;
@@ -44,6 +45,14 @@ const Registration = ({ role }: RegistrationProps) => {
           password: Math.random().toString(36).slice(-8)
         });
         setIsLoading(false);
+        toast.success("Account created successfully!");
+        // toast.custom((t) => (
+        //   <SuccessToast
+        //     message="Account created successfully!"
+        //     visible={t.visible}
+        //     onDismiss={() => toast.dismiss(t.id)}
+        //   />
+        // ));
         setIsSubmitted(true);
       }, 2000);
     }
