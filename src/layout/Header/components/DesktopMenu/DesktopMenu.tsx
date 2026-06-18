@@ -4,6 +4,7 @@ import { IconUser3Outline24, IconArrowDoorOut2Outline24 } from 'nucleo-core-esse
 
 // moon/night icon
 import { IconToggleOutline24 } from 'nucleo-core-essential-outline-24';
+import { Link } from 'react-router-dom';
 
 interface User {
   userName: string;
@@ -38,10 +39,10 @@ const DesktopMenu = ({ user, onSignOut, onClose }: DesktopMenuProps) => {
         <div className={styles.divider} />
 
         <nav className={styles.nav}>
-          <a href="#" className={styles.navItem}>
+          <Link to="/my-account" className={styles.navItem}>
             <IconUser3Outline24 />
             <span>My Account</span>
-          </a>
+          </Link>
           <div className={styles.navItem}>
             <IconToggleOutline24 />
             <span>Night mode</span>

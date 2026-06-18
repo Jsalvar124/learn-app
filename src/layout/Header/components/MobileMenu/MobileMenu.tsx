@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom';
 import styles from './MobileMenu.module.css';
 import { IconXmarkOutline24, IconArrowDoorOut2Outline24 } from 'nucleo-core-essential-outline-24';
-
 
 interface User {
   userName: string;
@@ -49,7 +49,7 @@ const MobileMenu = ({ isOpen, isLoggedIn, user, onClose, onSignIn, onSignOut }: 
           <a href="#" className={styles.navLink}>Pricing</a>
           <a href="#" className={styles.navLink}>About Us</a>
           {isLoggedIn && (
-            <a href="#" className={styles.navLink}>My Account</a>
+            <Link to="/my-account" className={styles.navLink}>My Account</Link>
           )}
         </nav>
 

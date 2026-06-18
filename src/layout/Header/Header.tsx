@@ -4,6 +4,7 @@ import Logo from '../../assets/Logo';
 import { Button } from '../../components/common/Button';
 import { MobileMenu } from './components/MobileMenu';
 import { DesktopMenu } from './components/DesktopMenu';
+import { Link } from 'react-router-dom';
 
 interface User {
   userName: string;
@@ -56,7 +57,9 @@ const Header = ({ isLoggedIn, user, onSignIn, onSignOut }: HeaderProps) => {
             ) : (
               <>
                 <a href="#" className={styles.signIn} onClick={onSignIn}>Sign in</a>
-                <Button text="Join us" variant="prime" size="sm" />
+                <Link to="/join-us">
+                  <Button text="Join us" variant="prime" size="sm" />
+                </Link>
               </>
             )}
           </div>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button } from '../../../../components/common/Button';
 import styles from './RegistrationSuccess.module.css';
 import { IconCircleCheckOutline24 } from 'nucleo-core-essential-outline-24';
@@ -27,7 +28,9 @@ const RegistrationSuccess = ({ username, password }: RegistrationSuccessProps) =
         <p className={styles.value}>{password}</p>
       </div>
     </div>
-    <Button text="My account" variant="prime" />
+    <Link to="/my-account">
+      <Button text="My account" variant="prime" />
+    </Link>
   </div>
 );
 

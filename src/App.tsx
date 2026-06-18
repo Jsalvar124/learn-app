@@ -1,11 +1,13 @@
 
 import { Header } from './layout/Header';
-// import { Login } from './pages/Login';
+import { Login } from './pages/Login';
 import { Footer } from './layout/Footer';
-// import { JoinUs } from './pages/JoinUs';
+import { JoinUs } from './pages/JoinUs';
 import { StudentAccount } from './pages/StudentAccount';
 import { useState } from 'react';
 import avatar from './assets/student-avatar-cropped.png'
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Registration } from './pages/Registration';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,10 +27,17 @@ function App() {
         onSignOut={() => setIsLoggedIn(false)}
       />
       <main className="main">
-        {/* page content */}
-        {/* <Login /> */}
-        <StudentAccount />
-        {/* <JoinUs /> */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/join-us" element={<JoinUs />} />
+          <Route path="/my-account" element={<StudentAccount />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/home" element={<div>Home</div>} />
+          <Route path="/training" element={<div>Training</div>} />
+          <Route path="/change-password" element={<div>Change Password</div>} />
+          <Route path="/registration-verification" element={<div>Registration Verification</div>} />
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
       </main>
       <Footer />
     </div>

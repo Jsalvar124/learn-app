@@ -11,12 +11,14 @@ import studentImg from '../../assets/student-registration.png';
 // import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
 // import { SuccessToast } from '../../components/common/SuccessToast';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
-interface RegistrationProps {
-  role: Role;
-}
+const Registration = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const role = searchParams.get('role') as Role;
 
-const Registration = ({ role }: RegistrationProps) => {
+  // Refactor with formData object
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -27,6 +29,10 @@ const Registration = ({ role }: RegistrationProps) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
 
+  if (!role) {
+    navigate('/join-us');
+    return null;
+  }
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!firstName) newErrors.firstName = 'First name is required';
