@@ -49,7 +49,7 @@ const Input = ({
         `}      
       />
       {iconRight && (
-        <button className={styles.iconRight} onClick={onIconRightClick} title={iconRightTooltip}>
+        <button type="button" className={styles.iconRight} onClick={onIconRightClick} title={iconRightTooltip}>
           {iconRight}
         </button>
       )}

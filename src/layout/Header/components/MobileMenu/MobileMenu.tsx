@@ -65,8 +65,8 @@ const MobileMenu = ({ isOpen, isLoggedIn, user, onClose, onSignIn, onSignOut }: 
           <>
             <div className={styles.divider} />
             <div className={styles.authLinks}>
-              <a href="#" className={styles.navLink} onClick={onSignIn}>Sign in</a>
-              <a href="#" className={`${styles.navLink} ${styles.joinUs}`} >Join us</a>
+              <Link to="/login" className={styles.navLink} onClick={onSignIn}>Sign in</Link>
+              <Link to="/join-us" className={`${styles.navLink} ${styles.joinUs}`}>Join us</Link>
             </div>
           </>
         )}

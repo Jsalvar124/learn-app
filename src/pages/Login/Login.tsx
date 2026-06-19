@@ -9,16 +9,35 @@ import {
   IconEye2SlashOutline24,   // hide password
   IconCircleHalfDashedCheckOutline24 // Captcha Arrow Icon
 } from 'nucleo-core-essential-outline-24';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!username) newErrors.username = 'Username is required';
+    if (!password) newErrors.password = 'password is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+    if(!validate()){
+      return;
+    }
+    navigate("/my-account");
+  };
 
   return (
     <div className={styles.page}>
-      <div className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
 
         <div className={styles.header}>
           <h1 className={styles.title}>Sign In</h1>
@@ -31,6 +50,7 @@ const Login = () => {
           value={username}
           onChange={e => setUsername(e.target.value)}
           iconLeft={<IconUser3Outline24 />}
+          state={errors.username ? 'error' : 'default'}
         />
 
         <Input
@@ -43,25 +63,25 @@ const Login = () => {
           iconRight={showPassword? <IconEye2SlashOutline24 /> : <IconEye2Outline24 />}
           iconRightTooltip={showPassword ? 'Hide password' : 'Show password'}
           onIconRightClick={() => setShowPassword(!showPassword)}
+          state={errors.password ? 'error' : 'default'}
         />
-
         <Button text="Sign In" variant="prime" fullWidth />
 
         <p className={styles.divider}>OR</p>
 
         <p className={styles.signupText}>
           Don't have an account?{' '}
-          <a href="#" className={styles.signupLink}>Sign up</a>
+          <Link to="/join-us" className={styles.signupLink}>Sign up</Link>
         </p>
 
         {/* reCAPTCHA mock */}
         <div className={styles.captcha}>
-        <input type="checkbox" className={styles.captchaCheckbox} />
-        <span className={styles.captchaText}>I'm not a robot</span>
-        <IconCircleHalfDashedCheckOutline24 />
+          <input type="checkbox" className={styles.captchaCheckbox} />
+          <span className={styles.captchaText}>I'm not a robot</span>
+          <IconCircleHalfDashedCheckOutline24 />
         </div>
 
-      </div>
+      </form>
     </div>
   );
 };

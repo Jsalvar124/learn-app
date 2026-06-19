@@ -42,7 +42,8 @@ const Registration = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (validate()) {
       setIsLoading(true);
       setTimeout(() => {
@@ -96,7 +97,7 @@ const Registration = () => {
               alt="registration"
               className={styles.image}
             />
-            <div className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.fields}>
                 <Input
                   label="First name"
@@ -159,10 +160,9 @@ const Registration = () => {
                   text="Submit"
                   variant="prime"
                   fullWidth
-                  onClick={handleSubmit}
                 />
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

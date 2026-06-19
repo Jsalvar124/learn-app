@@ -8,6 +8,7 @@ import { useState } from 'react';
 import avatar from './assets/student-avatar-cropped.png'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Registration } from './pages/Registration';
+import { Home } from './pages/Home';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,11 +33,12 @@ function App() {
           <Route path="/join-us" element={<JoinUs />} />
           <Route path="/my-account" element={<StudentAccount />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/home" element={<div>Home</div>} />
+          <Route path="/home" element={<Home />} />
           <Route path="/training" element={<div>Training</div>} />
           <Route path="/change-password" element={<div>Change Password</div>} />
           <Route path="/registration-verification" element={<div>Registration Verification</div>} />
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </main>
       <Footer />
