@@ -102,6 +102,7 @@ const ChangePassword = () => {
             iconRightTooltip={showConfirm ? 'Hide password' : 'Show password'}
             onIconRightClick={() => setShowConfirm(!showConfirm)}
             state={errors.confirmPassword ? 'error' : 'default'}
+            errorMessage={errors.confirmPassword ? errors.confirmPassword : undefined}
           />
 
           <div className={styles.actions}>

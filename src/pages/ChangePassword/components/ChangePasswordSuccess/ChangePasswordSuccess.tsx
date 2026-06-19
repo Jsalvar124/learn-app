@@ -10,7 +10,7 @@ const ChangePasswordSuccess = () => (
       <IconCircleCheckOutline24 />
     </div>
     <p className={styles.text}>Please proceed sign in with new password</p>
-    <Link to="/login">
+    <Link to="/login" className={styles.link}>
       <Button text="Sign In" variant="prime" />
     </Link>
   </div>

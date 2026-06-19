@@ -57,7 +57,7 @@ const Header = ({ isLoggedIn, user, onSignIn, onSignOut }: HeaderProps) => {
             ) : (
               <>
                 <Link to="/login" className={styles.signIn} onClick={onSignIn}>Sign in</Link>
-                <Link to="/join-us">
+                <Link to="/join-us" className={styles.link}>
                   <Button text="Join us" variant="prime" size="sm" />
                 </Link>
               </>

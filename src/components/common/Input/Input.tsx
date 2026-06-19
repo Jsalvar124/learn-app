@@ -2,6 +2,10 @@
 export { default as Input } from './Input';
 import styles from './Input.module.css';
 import type { ReactNode } from 'react';
+import { 
+IconTriangleWarningOutline24 
+} from 'nucleo-core-essential-outline-24';
+
 
 interface InputProps {
   label?: string;
@@ -15,6 +19,7 @@ interface InputProps {
   onIconRightClick?: () => void;
   disabled?: boolean;
   state?: 'default' | 'error' | 'valid';
+  errorMessage?: string;
 }
 
 const Input = ({
@@ -28,7 +33,8 @@ const Input = ({
   iconRightTooltip,
   onIconRightClick,
   disabled = false,
-  state = 'default'
+  state = 'default',
+  errorMessage
 }: InputProps) => (
   <div className={styles.wrapper}>
     {label && <label className={styles.label}>{label}</label>}
@@ -54,6 +60,12 @@ const Input = ({
         </button>
       )}
     </div>
+    {errorMessage && 
+    <p className={styles.errorMessage}>
+      <IconTriangleWarningOutline24 />
+      {errorMessage}
+    </p>
+    }
   </div>
 );
 

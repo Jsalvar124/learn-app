@@ -28,7 +28,7 @@ const RegistrationSuccess = ({ username, password }: RegistrationSuccessProps) =
         <p className={styles.value}>{password}</p>
       </div>
     </div>
-    <Link to="/my-account">
+    <Link to="/my-account" className={styles.link}>
       <Button text="My account" variant="prime" />
     </Link>
   </div>
