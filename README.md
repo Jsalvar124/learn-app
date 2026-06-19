@@ -2,22 +2,29 @@
 
 A static React learning-platform UI built for the **EPAM Frontend React course (Task 1)**.
 
-🔗 **Live demo:** https://jsalvar124.github.io/learn-app/ — currently lands on the **Student Account** ("My Account") page, since that's the page mounted in `src/App.tsx` while the app is still router-less.
+🔗 **Live demo:** https://jsalvar124.github.io/learn-app/
 
 ---
 
 ## About the project
 
-`learn-app` is the front-end of a learning platform where students and trainers can sign up, log in, and manage their account. The current build is **static** — there is no backend, no real authentication, and no router yet. Page navigation is handled by hand in `src/App.tsx` by commenting / uncommenting the page you want to render.
+`learn-app` is the front-end of a learning platform where students and trainers can sign up, log in, and manage their account. The current build is **static** — there is no backend and no real authentication. All data is mocked locally.
 
-The next milestone is a refactor to **React Router**, which will replace the manual page switch with real routes and `<Link>` / `<NavLink>` navigation across the Header, Footer, and sign-in flow.
+The app is fully routed with **React Router v7**. Every page has its own URL and navigation uses `<Link>` / `<NavLink>` components and `useNavigate()` — there is no manual page switching in `App.tsx`.
 
-The app currently includes the following flows:
+### Pages implemented
 
-- **Login**
-- **Registration** (with a post-submit success screen)
-- **Join Us** (role picker — student or trainer)
-- **Student Account** (Profile, Edit Profile, Trainers, Trainings)
+| Route | Page | Description |
+| --- | --- | --- |
+| `/home` | Home | Landing page |
+| `/login` | Login | Sign-in form |
+| `/join-us` | Join Us | Role picker (student / trainer) |
+| `/registration` | Registration | Sign-up form + success screen |
+| `/my-account` | Student Account | Profile, Edit Profile, Trainers list, Trainings summary |
+| `/trainings` | Trainings | Search form + passed-trainings table (mocked data) |
+| `/change-password` | Change Password | Password update form with validation + success screen |
+| `*` | Not Found | 404 page with "Back to Home" button |
+| `/` | — | Redirects to `/home` |
 
 ---
 
@@ -45,15 +52,6 @@ npm run dev
 ```
 Vite will print a local URL (usually http://localhost:5173/learn-app/) — open it in a browser and you should see the app with HMR enabled.
 
-### Switching the visible page
-There is no router yet, so to view a different page open `src/App.tsx` and comment / uncomment the page imports and the JSX inside `<main>`:
-
-```tsx
-{/* <Login /> */}
-<StudentAccount />
-{/* <JoinUs /> */}
-```
-
 ### All available scripts
 
 | Script | What it does |
@@ -76,8 +74,11 @@ There is no router yet, so to view a different page open `src/App.tsx` and comme
 - **TypeScript** in strict mode.
 - **Vite 8** for the dev server (HMR) and the production build.
 
+### Routing
+- **React Router v7** (`react-router-dom`) — `<BrowserRouter basename="/learn-app/">` in `src/main.tsx`.
+
 ### UI library
-- **MUI** — `@mui/material` and `@mui/x-date-pickers` for richer form controls (date pickers in the registration / profile flows).
+- **MUI** — `@mui/material` (Table, DatePicker) and `@mui/x-date-pickers` for richer form controls.
 - **Emotion** — `@emotion/react`, `@emotion/styled` — included only because MUI requires them; we do **not** author Emotion-styled components ourselves.
 
 ### Date handling
@@ -102,22 +103,31 @@ There is no router yet, so to view a different page open `src/App.tsx` and comme
 
 ```
 src/
-├── App.tsx                 # Page switcher (manual, no router yet)
-├── main.tsx                # React entry point
+├── App.tsx                 # Route declarations (<Routes> block)
+├── main.tsx                # React entry point + app-wide providers
 ├── index.css               # Global styles + CSS custom-property theme tokens
 ├── assets/                 # Images + Logo.tsx component
-├── types/                  # Shared TS types (e.g. Role = 'student' | 'trainer')
+├── types/                  # Shared TS types (Role, Training)
 ├── layout/
 │   ├── Header/             # + components/MobileMenu, components/DesktopMenu
 │   └── Footer/             # + components/LanguageMenu
-├── components/common/      # Reusable primitives: Button, Input, Box,
-│                           # SuccessToast, ConfirmModal
+├── components/common/      # Reusable primitives:
+│   ├── Button/
+│   ├── Input/
+│   ├── Box/
+│   ├── Breadcrumbs/        # <Breadcrumbs items={[{ label, to? }]} />
+│   ├── SuccessToast/
+│   └── ConfirmModal/
 └── pages/
+    ├── Home/
     ├── Login/
     ├── Registration/       # + components/RegistrationSuccess
     ├── JoinUs/             # + components/JoinUsBox
-    └── StudentAccount/     # + components/Profile, EditProfile,
-                            #   Trainers, Trainings
+    ├── StudentAccount/     # + components/Profile, EditProfile,
+    │                       #   Trainers, Trainings
+    ├── Trainings/          # + components/SearchTrainings, PassedTrainings
+    ├── ChangePassword/     # + components/ChangePasswordSuccess
+    └── NotFound/
 ```
 
 ### Co-location convention
@@ -143,10 +153,10 @@ The project uses **CSS Modules** for component styling — no Tailwind, no `styl
 
 ## Additional libraries — where they show up
 
-- **MUI (`@mui/material`, `@mui/x-date-pickers`)** — used wherever a richer control is needed (date pickers in registration and profile editing). Where possible they're wrapped by the project's own common components so the rest of the app stays styled by CSS Modules.
+- **MUI (`@mui/material`, `@mui/x-date-pickers`)** — used for the `PassedTrainings` table (MUI `Table`) and the date pickers in `SearchTrainings`, registration, and profile editing.
 - **Emotion** — present only as MUI's peer dep. Do not write Emotion-styled components.
 - **react-hot-toast** — fronted by `components/common/SuccessToast`. Trigger toasts through that wrapper so the look and behavior stay consistent.
-- **Font Awesome + Nucleo** — Font Awesome handles brand glyphs (e.g. Footer social links); Nucleo provides the general UI iconography.
+- **Font Awesome + Nucleo** — Font Awesome handles brand glyphs (e.g. Footer social links); Nucleo provides the general UI iconography (lock icon in Change Password, check-circle in success screens, etc.).
 - **dayjs** — paired with `@mui/x-date-pickers`; use it for any date math the app needs.
 
 ---
@@ -156,25 +166,16 @@ The project uses **CSS Modules** for component styling — no Tailwind, no `styl
 - **Strict TypeScript.** `tsconfig.app.json` enables `strict`, `noUnusedLocals`, and `noUnusedParameters`, so unused variables and parameters **fail the build**, not just the lint step. Prefix intentional unused params with `_` (e.g. `_event`).
 - **React Compiler is on.** Don't reach for `useMemo` / `useCallback` unless you have measured a real need — the compiler memoizes most cases for you.
 - **No global state library.** State flows through props. Don't add Context / Redux / Zustand without discussing first.
-- **Reuse shared types.** The `Role = 'student' | 'trainer'` union lives in `src/types/index.ts`. Import it across the registration flow rather than redefining the union locally.
+- **Reuse shared types.** `Role = 'student' | 'trainer'` and `Training` both live in `src/types/index.ts`. Import from there rather than redefining locally.
+- **Mocked data.** All data is defined inline in each page component (e.g. `PASSED_TRAININGS` in `Trainings.tsx`). There is no API layer yet.
 
 ---
 
 ## Roadmap
 
-### Next milestone — React Router
-Replace the hand-rolled page switch in `src/App.tsx` with `<Routes>` + `<Route>`, and turn the Header / Footer / sign-in flow navigation from `useState` toggles into real `<Link>` / `<NavLink>` elements. The current pages already map cleanly to routes:
-
-| Page | Likely route |
-| --- | --- |
-| Login | `/login` |
-| Registration | `/registration` |
-| Join Us | `/join-us` |
-| Student Account | `/student-account` |
-
-### Later
+### Next
 - Real authentication and a backend integration.
-- A test runner and component / integration tests (none configured today).
+- Redux for global context
 
 ---
 
