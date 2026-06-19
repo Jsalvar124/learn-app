@@ -7,8 +7,10 @@ import { Trainings } from './components/Trainings';
 import { useState } from 'react';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
 import { EditProfile } from './components/EditProfile';
+import { useNavigate } from 'react-router-dom';
 
 const StudentAccount = () => {
+    const navigate = useNavigate();
     const [profile, setProfile] = useState({
         avatar: avatar,
         firstName: 'Marta',
@@ -78,7 +80,7 @@ const StudentAccount = () => {
         {/* <StudentTrainings /> */}
         <Trainings
             description="The Training Section is interactive, allowing you to engage with trainers and fellow learners, participate in quizzes, and track your progress. All our courses are flexible and adaptable to your schedule and learning speed."
-            onViewTrainings={() => console.log('view trainings')}
+            onViewTrainings={() => navigate("/trainings")}
         />
   </div>
 )};

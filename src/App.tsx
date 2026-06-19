@@ -10,6 +10,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Registration } from './pages/Registration';
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound';
+import { Trainings } from './pages/Trainings';
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
           <Route path="/my-account" element={<StudentAccount />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/training" element={<div>Training</div>} />
+          <Route path="/trainings" element={<Trainings />} />
           <Route path="/change-password" element={<div>Change Password</div>} />
           <Route path="/registration-verification" element={<div>Registration Verification</div>} />
           <Route path="/" element={<Navigate to="/home" />} />

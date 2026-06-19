@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+
+.title {
+  align-self: stretch;
+  font-family: var(--font-heading);
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 32px;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dateLabel {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 700;
+  color: var(--color-neutral-700, #323842);
+}
+
+/* MUI DatePicker text field overrides to match spec */
+.datePickerInput {
+  width: 192px;
+}
+
+.datePickerInput :global(.MuiOutlinedInput-root) {
+  height: 36px;
+  border-radius: 6px;
+  background: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+.datePickerInput :global(.MuiOutlinedInput-input) {
+  padding: 8px 12px;
+}
+
+.datePickerInput :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--color-primary);
+}
+
+.datePickerInput :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--color-primary-hover);
+}
+
+.datePickerInput :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--color-primary);
+  border-width: 1px;
+}
+
+.datePickerInput :global(.MuiIconButton-root) {
+  color: var(--color-neutral-900);
+}
+
+@media (max-width: 900px) {
+  .fields {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
