@@ -62,7 +62,7 @@ const StudentAccount = () => {
         <div className={styles.actions}>
             <div className={styles.actionsLeft}>
                 <Button text="Edit profile" variant="prime" onClick={() => setIsEditing(true)} />
-                <Button text="Change Password" variant="secondary" onClick={() => console.log('change password')} />
+                <Button text="Change Password" variant="secondary" onClick={() => navigate("/change-password")} />
             </div>
             <Button text="Delete profile" variant="important" onClick={() => setDeleteModalOpen(true)} />
         </div>
@@ -77,7 +77,7 @@ const StudentAccount = () => {
             }}
             onCancel={() => setDeleteModalOpen(false)}
         />
-        {/* <StudentTrainings /> */}
+        {/* Student Trainings */}
         <Trainings
             description="The Training Section is interactive, allowing you to engage with trainers and fellow learners, participate in quizzes, and track your progress. All our courses are flexible and adaptable to your schedule and learning speed."
             onViewTrainings={() => navigate("/trainings")}
