@@ -9,6 +9,8 @@ import avatar from './assets/student-avatar-cropped.png'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Registration } from './pages/Registration';
 import { Home } from './pages/Home';
+import { NotFound } from './pages/NotFound';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,7 +40,7 @@ function App() {
           <Route path="/change-password" element={<div>Change Password</div>} />
           <Route path="/registration-verification" element={<div>Registration Verification</div>} />
           <Route path="/" element={<Navigate to="/home" />} />
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

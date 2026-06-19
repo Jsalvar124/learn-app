@@ -1,0 +1,47 @@
+.page {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 16px;
+  gap: 8px;
+}
+
+.code {
+  font-family: var(--font-heading);
+  font-size: 96px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  line-height: 38px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  margin-top: 8px;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-neutral-500);
+  max-width: 420px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .code {
+    font-size: 72px;
+  }
+
+  .title {
+    font-size: 22px;
+    line-height: 30px;
+  }
+}
