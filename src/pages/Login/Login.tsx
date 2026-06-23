@@ -10,7 +10,8 @@ import {
   IconCircleHalfDashedCheckOutline24 // Captcha Arrow Icon
 } from 'nucleo-core-essential-outline-24';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { login } from '../../services/userService';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,12 +28,27 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) =>{
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) =>{
     e.preventDefault();
-    if(!validate()){
-      return;
+    if(!validate()) return;
+    
+    const loginData = {
+      email: username,
+      password
     }
-    navigate("/my-account");
+    try{
+      const response = await login(loginData);
+      console.log(response);
+      if (response.successful) {
+        localStorage.setItem("token", response.result);
+        toast.success("Login successful!");
+        navigate("/my-account");
+      }else {
+        setErrors({ form: response.result });
+      }
+    }catch(err){        
+      setErrors({ form: "Invalid username or password."});
+    } 
   };
 
   return (
@@ -65,6 +81,7 @@ const Login = () => {
           onIconRightClick={() => setShowPassword(!showPassword)}
           state={errors.password ? 'error' : 'default'}
         />
+        {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
         <Button text="Sign In" variant="prime" fullWidth />
 
         <p className={styles.divider}>OR</p>

@@ -7,18 +7,15 @@ import { RegistrationSuccess } from './components/RegistrationSuccess';
 import type { Role } from '../../types';
 import trainerImg from '../../assets/trainer-registration.png';
 import studentImg from '../../assets/student-registration.png';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
-// import { SuccessToast } from '../../components/common/SuccessToast';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { createUser } from '../../services/userService';
 
 const Registration = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const role = searchParams.get('role') as Role;
 
-  // Refactor with formData object
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -42,26 +39,31 @@ const Registration = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
       setIsLoading(true);
-      setTimeout(() => {
-        setCredentials({
-          username: `${firstName.toLowerCase()}_${Math.floor(Math.random() * 1000)}`,
-          password: Math.random().toString(36).slice(-8)
-        });
-        setIsLoading(false);
-        toast.success("Account created successfully!");
-        // toast.custom((t) => (
-        //   <SuccessToast
-        //     message="Account created successfully!"
-        //     visible={t.visible}
-        //     onDismiss={() => toast.dismiss(t.id)}
-        //   />
-        // ));
+
+      const username = `${firstName.toLowerCase()}_${role}_${Math.floor(Math.random() * 1000)}@learn.com`;
+      const password = Math.random().toString(36).slice(-8);
+
+      setCredentials({ username, password }); // keep in state for display later
+      const userData = {
+        name: `${firstName} ${lastName}`,
+        email: username,
+        password,
+      }
+      // API CALL
+      try {
+        const response = await createUser(userData);
+        console.log(response);
         setIsSubmitted(true);
-      }, 2000);
+        toast.success("Account created successfully!");
+      } catch (err) {
+        toast.error("Something went wrong. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
