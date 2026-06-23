@@ -1,30 +1,55 @@
-const BASE_URL = "http://localhost:4000";
+import type { ApiError } from "../types";
 
-
+const BASE_URL = "http://localhost:8080/api/v1";
 // Registration 
 
-type CreateUserPayload = {
-  name: string;
+// services/userService.ts
+
+export type CreateTrainerPayload = {
+  firstName: string;
+  lastName: string;
+  specialization: string;
   email: string;
+};
+
+export type CreateTraineePayload = {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string; // "YYYY-MM-DD", must be in the past
+  email: string;
+  address: string;
+};
+
+export type CreateUserResponse = {
+  username: string;
   password: string;
 };
 
-type CreateUserResponse = {
-  successful: boolean;
-  result: string;
-};
-
-export const createUser = async (data: CreateUserPayload): Promise<CreateUserResponse> => {
-  const response = await fetch(`${BASE_URL}/register`, {
+export const createTrainer = async (data: CreateTrainerPayload): Promise<CreateUserResponse> => {
+  const response = await fetch(`${BASE_URL}/trainers`, {
     method: "POST",
+    headers: { "Content-Type": "application/json", accept: "application/json" },
     body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   if (!response.ok) {
-    throw new Error("Network Error");
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
+  }
+
+  return await response.json();
+};
+
+export const createTrainee = async (data: CreateTraineePayload): Promise<CreateUserResponse> => {
+  const response = await fetch(`${BASE_URL}/trainees`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", accept: "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
   }
 
   return await response.json();
@@ -33,24 +58,16 @@ export const createUser = async (data: CreateUserPayload): Promise<CreateUserRes
 // Login
 
 type LoginPayload = {
-  email: string;
+  username: string;
   password: string;
 }
 
-export type LoginUser = {
-  name: string;
-  email: string;
-  password: string; // odd that login echoes password back, but that's what the schema says
-};
-
 export type LoginResponse = {
-  successful: boolean;
-  result: string; // the "Bearer ..." token string
-  user: LoginUser;
+  token: string;
 };
 
 export const login = async (data: LoginPayload): Promise<LoginResponse> => {
-  const response = await fetch(`${BASE_URL}/login`, {
+  const response = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -59,7 +76,8 @@ export const login = async (data: LoginPayload): Promise<LoginResponse> => {
   })
 
   if (!response.ok) {
-    throw new Error("Network Error");
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
   }
 
   return await response.json();

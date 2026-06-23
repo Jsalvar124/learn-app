@@ -33,22 +33,18 @@ const Login = () => {
     if(!validate()) return;
     
     const loginData = {
-      email: username,
+      username,
       password
     }
-    try{
+    try {
       const response = await login(loginData);
-      console.log(response);
-      if (response.successful) {
-        localStorage.setItem("token", response.result);
-        toast.success("Login successful!");
-        navigate("/my-account");
-      }else {
-        setErrors({ form: response.result });
-      }
-    }catch(err){        
-      setErrors({ form: "Invalid username or password."});
-    } 
+      localStorage.setItem("token", response.token);
+      toast.success("Login successful!");
+      navigate("/my-account");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Invalid username or password.";
+      setErrors({ form: message });
+    }
   };
 
   return (

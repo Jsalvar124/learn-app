@@ -7,3 +7,10 @@ export type Training = {
   trainerName: string;
   duration: string;
 }
+
+export type ApiError = {
+  error: string;
+  message: string;
+  timestamp: string;
+  status: number;
+};

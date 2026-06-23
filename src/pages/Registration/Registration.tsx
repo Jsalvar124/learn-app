@@ -9,7 +9,7 @@ import trainerImg from '../../assets/trainer-registration.png';
 import studentImg from '../../assets/student-registration.png';
 import toast from 'react-hot-toast';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { createUser } from '../../services/userService';
+import { createTrainee, createTrainer } from '../../services/userService';
 
 const Registration = () => {
   const [searchParams] = useSearchParams();
@@ -30,11 +30,25 @@ const Registration = () => {
     navigate('/join-us');
     return null;
   }
+
+  const isTrainer = role === 'trainer';
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!firstName) newErrors.firstName = 'First name is required';
     if (!lastName) newErrors.lastName = 'Last name is required';
-    if (role === 'trainer' && !specialization) newErrors.specialization = 'Specialization is required';
+    if (isTrainer && !specialization) {
+      newErrors.specialization = 'Specialization is required';
+    }
+    if (!isTrainer) {
+      if (!dateOfBirth) {
+        newErrors.dateOfBirth = 'Date of birth is required';
+      } else if (new Date(dateOfBirth) >= new Date()) {
+        newErrors.dateOfBirth = 'Date of birth must be in the past';
+      }
+      if (!address) newErrors.address = 'Address is required';
+    }
+
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -44,23 +58,19 @@ const Registration = () => {
     if (validate()) {
       setIsLoading(true);
 
-      const username = `${firstName.toLowerCase()}_${role}_${Math.floor(Math.random() * 1000)}@learn.com`;
-      const password = Math.random().toString(36).slice(-8);
-
-      setCredentials({ username, password }); // keep in state for display later
-      const userData = {
-        name: `${firstName} ${lastName}`,
-        email: username,
-        password,
-      }
+      const email = `${firstName.toLowerCase()}_${role}_${Math.floor(Math.random() * 1000)}@learn.com`;
       // API CALL
       try {
-        const response = await createUser(userData);
-        console.log(response);
+        const response = isTrainer
+          ? await createTrainer({ firstName, lastName, specialization, email })
+          : await createTrainee({ firstName, lastName, dateOfBirth, address, email });
+
+        setCredentials(response);
         setIsSubmitted(true);
-        toast.success("Account created successfully!");
+        toast.success('Account created successfully!');
       } catch (err) {
-        toast.error("Something went wrong. Please try again.");
+        const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+        toast.error(message);
       } finally {
         setIsLoading(false);
       }
@@ -144,10 +154,10 @@ const Registration = () => {
                         onChange={e => setSpecialization(e.target.value)}
                       >
                         <option value="">Please select</option>
-                        <option value="math">Mathematics</option>
-                        <option value="science">Science</option>
-                        <option value="language">Language</option>
-                        <option value="programming">Programming</option>
+                        <option value="MATHEMATICS">Mathematics</option>
+                        <option value="SCIENCE">Science</option>
+                        <option value="LANGUAGE">Language</option>
+                        <option value="PROGRAMMING">Programming</option>
                       </select>
                       <span className={styles.selectArrow}>
                         <IconChevronDownOutline24 />
