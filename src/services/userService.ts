@@ -1,8 +1,6 @@
 import type { ApiError } from "../types";
-
-const BASE_URL = "http://localhost:8080/api/v1";
+import { BASE_URL } from ".";
 // Registration 
-
 // services/userService.ts
 
 export type CreateTrainerPayload = {

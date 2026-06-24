@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
+import type { Trainer, Trainee } from "../../types/user";
+import { getUserProfileThunk } from "../thunks/userThunk";
 export type Role = "TRAINER" | "TRAINEE";
 
 type UserState = {
@@ -7,6 +8,9 @@ type UserState = {
   role: Role | null;
   token: string | null;
   isAuth: boolean;
+  profile: Trainer | Trainee | null;
+  loading: boolean;
+  error: string | null;
 };
 
 const initialState: UserState = {
@@ -14,6 +18,9 @@ const initialState: UserState = {
   role: null,
   token: null,
   isAuth: false,
+  profile: null,
+  loading: false,
+  error: null,
 };
 
 const userSlice = createSlice({
@@ -32,6 +39,21 @@ const userSlice = createSlice({
       state.token = null;
       state.isAuth = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getUserProfileThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getUserProfileThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(getUserProfileThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? "Failed to load profile";
+      });
   },
 });
 

@@ -25,7 +25,6 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/trainings" element={<Trainings />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          {/* <Route path="/registration-verification" element={<div>Registration Verification</div>} /> */}
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

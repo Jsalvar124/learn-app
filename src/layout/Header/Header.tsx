@@ -4,11 +4,12 @@ import Logo from '../../assets/Logo';
 import { Button } from '../../components/common/Button';
 import { MobileMenu } from './components/MobileMenu';
 import { DesktopMenu } from './components/DesktopMenu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDefaultAvatarSelector, getIsAuthSelector, getUserNameSelector } from '../../store/selectors';
 import type { AppDispatch } from '../../store';
 import { removeUserData } from '../../store/slices/userSlice';
+
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,11 +18,13 @@ const Header = () => {
   const username = useSelector(getUserNameSelector);
   const avatar = useSelector(getDefaultAvatarSelector)
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
     dispatch(removeUserData());
     setDesktopMenuOpen(false);
+    navigate("/home")
   }
 
   return (
