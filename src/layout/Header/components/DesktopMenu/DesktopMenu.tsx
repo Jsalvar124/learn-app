@@ -5,21 +5,18 @@ import { IconUser3Outline24, IconArrowDoorOut2Outline24 } from 'nucleo-core-esse
 // moon/night icon
 import { IconToggleOutline24 } from 'nucleo-core-essential-outline-24';
 import { Link } from 'react-router-dom';
-
-interface User {
-  userName: string;
-  email: string;
-  avatar: string;
-}
+import { getDefaultAvatarSelector, getUserNameSelector } from '../../../../store/selectors';
+import { useSelector } from 'react-redux';
 
 interface DesktopMenuProps {
-  user: User;
   onSignOut?: () => void;
   onClose?: () => void;
 }
 
-const DesktopMenu = ({ user, onSignOut, onClose }: DesktopMenuProps) => {
+const DesktopMenu = ({ onSignOut, onClose }: DesktopMenuProps) => {
   const [nightMode, setNightMode] = useState(false);
+  const avatar = useSelector(getDefaultAvatarSelector);
+  const username = useSelector(getUserNameSelector);
 
   return (
     <>
@@ -28,11 +25,11 @@ const DesktopMenu = ({ user, onSignOut, onClose }: DesktopMenuProps) => {
 
         <div className={styles.userSection}>
           <div className={styles.avatar}>
-            <img src={user.avatar} alt="avatar" />
+            <img src={avatar} alt="avatar" />
           </div>
           <div className={styles.userInfo}>
-            <span className={styles.userName}>{user.userName}</span>
-            <span className={styles.userEmail}>{user.email}</span>
+            <span className={styles.userName}>{username}</span>
+            <span className={styles.userEmail}>hardcoded@email.com</span>
           </div>
         </div>
 

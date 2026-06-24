@@ -4,8 +4,6 @@ import { Login } from './pages/Login';
 import { Footer } from './layout/Footer';
 import { JoinUs } from './pages/JoinUs';
 import { StudentAccount } from './pages/StudentAccount';
-import { useState } from 'react';
-import avatar from './assets/student-avatar-cropped.png'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Registration } from './pages/Registration';
 import { Home } from './pages/Home';
@@ -14,22 +12,10 @@ import { Trainings } from './pages/Trainings';
 import { ChangePassword } from './pages/ChangePassword';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user] = useState({
-    userName: 'Marta_st',
-    email: 'marta_12334@gmail.com',
-    avatar: avatar,
-  });
-
 
   return (
     <div className="app">
-      <Header
-        isLoggedIn={isLoggedIn}
-        user={user}
-        onSignIn={() => setIsLoggedIn(true)}
-        onSignOut={() => setIsLoggedIn(false)}
-      />
+      <Header />
       <main className="main">
         <Routes>
           <Route path="/login" element={<Login />} />

@@ -12,8 +12,15 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/userService';
 import toast from 'react-hot-toast';
+import type { AppDispatch } from '../../store';
+import { decodeToken } from '../../helpers/decodeToken';
+import { setUserData } from '../../store/slices/userSlice';
+import { useDispatch} from 'react-redux';
+
+
 
 const Login = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,6 +46,15 @@ const Login = () => {
     try {
       const response = await login(loginData);
       localStorage.setItem("token", response.token);
+      const decodedToken = decodeToken(response.token);
+
+      //dispatch call for saving token data in store
+      dispatch(setUserData({
+        username: decodedToken.sub,
+        role: decodedToken.userType,
+        token: response.token
+      }))
+
       toast.success("Login successful!");
       navigate("/my-account");
     } catch (err) {
