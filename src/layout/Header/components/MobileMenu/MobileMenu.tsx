@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './MobileMenu.module.css';
 import { IconXmarkOutline24, IconArrowDoorOut2Outline24 } from 'nucleo-core-essential-outline-24';
 import { useSelector } from 'react-redux';
-import { getDefaultAvatarSelector, getIsAuthSelector, getUserNameSelector } from '../../../../store/selectors';
+import { getDefaultAvatarSelector, getIsAuthSelector, getUserNameSelector, getUserProfileSelector } from '../../../../store/selectors';
 
 
 interface MobileMenuProps {
@@ -15,6 +15,8 @@ const MobileMenu = ({ isOpen, onClose, onSignOut }: MobileMenuProps) => {
   const isAuth = useSelector(getIsAuthSelector);
   const avatar = useSelector(getDefaultAvatarSelector);
   const username = useSelector(getUserNameSelector);
+  const profile = useSelector(getUserProfileSelector);
+
 
   return (
     <>
@@ -29,7 +31,7 @@ const MobileMenu = ({ isOpen, onClose, onSignOut }: MobileMenuProps) => {
             <div className={styles.userInfo}>
               <span className={styles.userName}>{username}</span>
               {/* FIX HARDCODED */}
-              <span className={styles.userEmail}>hardcoded@email.com</span> 
+              <span className={styles.userEmail}>{profile?.email}</span> 
             </div>
             <button className={styles.closeButton} onClick={onClose}>
               <IconXmarkOutline24 />

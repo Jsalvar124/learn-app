@@ -5,7 +5,7 @@ import { IconUser3Outline24, IconArrowDoorOut2Outline24 } from 'nucleo-core-esse
 // moon/night icon
 import { IconToggleOutline24 } from 'nucleo-core-essential-outline-24';
 import { Link } from 'react-router-dom';
-import { getDefaultAvatarSelector, getUserNameSelector } from '../../../../store/selectors';
+import { getDefaultAvatarSelector, getUserNameSelector, getUserProfileSelector } from '../../../../store/selectors';
 import { useSelector } from 'react-redux';
 
 interface DesktopMenuProps {
@@ -17,6 +17,7 @@ const DesktopMenu = ({ onSignOut, onClose }: DesktopMenuProps) => {
   const [nightMode, setNightMode] = useState(false);
   const avatar = useSelector(getDefaultAvatarSelector);
   const username = useSelector(getUserNameSelector);
+  const profile = useSelector(getUserProfileSelector);
 
   return (
     <>
@@ -29,7 +30,7 @@ const DesktopMenu = ({ onSignOut, onClose }: DesktopMenuProps) => {
           </div>
           <div className={styles.userInfo}>
             <span className={styles.userName}>{username}</span>
-            <span className={styles.userEmail}>hardcoded@email.com</span>
+            <span className={styles.userEmail}>{profile?.email}</span>
           </div>
         </div>
 

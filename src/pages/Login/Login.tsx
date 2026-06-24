@@ -16,7 +16,7 @@ import type { AppDispatch } from '../../store';
 import { decodeToken } from '../../helpers/decodeToken';
 import { setUserData } from '../../store/slices/userSlice';
 import { useDispatch} from 'react-redux';
-
+import { getUserProfileThunk } from '../../store/thunks/userThunk';
 
 
 const Login = () => {
@@ -53,6 +53,12 @@ const Login = () => {
         username: decodedToken.sub,
         role: decodedToken.userType,
         token: response.token
+      }))
+
+      // dispatch call for complete user data
+      dispatch(getUserProfileThunk({
+        username: decodedToken.sub,
+        role: decodedToken.userType
       }))
 
       toast.success("Login successful!");
