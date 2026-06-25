@@ -48,8 +48,7 @@ const Trainings = () => {
 
     const partnerName = 'trainerName' in t ? t.trainerName : t.traineeName;
     if (filters.partnerUsername && !partnerName.toLowerCase().includes(filters.partnerUsername.toLowerCase())) return false;
-
-    if (filters.specialization && t.trainingType !== filters.specialization) return false;
+    if (filters.specialization &&  t.trainingType.toLowerCase() !== filters.specialization.toLowerCase()) return false;
 
     return true;
   });
@@ -66,8 +65,8 @@ const Trainings = () => {
 
       <h1 className={styles.title}>Trainings</h1>
 
-      {role === 'TRAINEE' &&
-      <Button text="Add training" variant="secondary" />
+      {role === 'TRAINER' &&
+      <Button text="Add training" variant="secondary" to='/trainings/add' />
       }
 
       <SearchTrainings onSearch={setFilters}/>
