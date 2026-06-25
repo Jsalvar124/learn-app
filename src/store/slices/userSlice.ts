@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Trainer, Trainee } from "../../types/user";
-import { getUserProfileThunk } from "../thunks/userThunk";
+import { getUserProfileThunk, updateUserThunk } from "../thunks/userThunk";
 export type Role = "TRAINER" | "TRAINEE";
 
 type UserState = {
@@ -53,6 +53,19 @@ const userSlice = createSlice({
       .addCase(getUserProfileThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Failed to load profile";
+      })
+          // --- new cases for updateUserThunk ---
+      .addCase(updateUserThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload; // overwrite with the updated profile from the response
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? "Failed to update profile";
       });
   },
 });

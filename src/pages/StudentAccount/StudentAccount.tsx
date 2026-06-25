@@ -1,6 +1,5 @@
 import { Profile } from './components/Profile';
 import styles from './StudentAccount.module.css'
-import avatar from '../../assets/student-avatar-cropped.png'
 import { Trainers } from './components/Trainers';
 import { Button } from '../../components/common/Button';
 import { Trainings } from './components/Trainings';
@@ -8,35 +7,35 @@ import { useState } from 'react';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
 import { EditProfile } from './components/EditProfile';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getDefaultAvatarSelector, getUserProfileSelector } from '../../store/selectors';
+import { Trainees } from './components/Trainees';
 
 const StudentAccount = () => {
     const navigate = useNavigate();
-    const [profile, setProfile] = useState({
-        avatar: avatar,
-        firstName: 'Marta',
-        lastName: 'Black',
-        userName: 'Marta_st',
-        dateOfBirth: '01.01.2001',
-        address: '123 Main Street Boston, MA 02108',
-        email: 'marta_12334@gmail.com',
-        active: true,
-    });
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const profile = useSelector(getUserProfileSelector);
+    const avatar = useSelector(getDefaultAvatarSelector);
+
     if (isEditing) {
         return (
         <div className={styles.page}>
             <h1 className={styles.title}>My Account</h1>
             <EditProfile 
-                {...profile}
                 onCancel={() => setIsEditing(false)} 
-                onSave={(data) => {
-                    setProfile(prev => ({ ...prev, ...data }));
-                    setIsEditing(false);
-                }}
+                onSave={()=> setIsEditing(false)}
                 />
         </div>
         );
+    }
+
+    if (!profile) {
+    return (
+    <div className={styles.page}>
+      <h1 className={styles.title}>My Account</h1>
+    </div>
+    );
     }
 
     return(
@@ -45,19 +44,21 @@ const StudentAccount = () => {
         <div className={styles.top}>
             {/* Student Profile */}
             <Profile
-                {...profile}
+                profile={profile}
+                avatar={avatar}
             />
             {/* Student Trainers */}
+            {profile && 'trainers' in profile && (
             <Trainers
-                trainers={[
-                    { name: 'Elizabeth Lopez', specialization: 'PHP' },
-                    { name: 'Matthew Martinez', specialization: 'JavaScript' },
-                    { name: 'Elizabeth Hall', specialization: 'Algorithms' },
-                    { name: 'Maria White', specialization: 'Java' },
-                ]}
-                onAddTrainer={() => console.log('add trainer')}
+                trainers={profile.trainers}
+                onAddTrainer={() => console.log('add trainer')} //Not functional, trainers are added automatically by scheduling a training. just kept for the UI design.
             />
-
+            )}
+            {profile && 'trainees' in profile && (
+            <Trainees
+                trainees={profile.trainees}
+            />
+            )}
         </div>
         <div className={styles.actions}>
             <div className={styles.actionsLeft}>

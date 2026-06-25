@@ -2,18 +2,15 @@ import { useState } from 'react';
 import styles from './EditProfile.module.css';
 import { Input } from '../../../../components/common/Input';
 import { Button } from '../../../../components/common/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDefaultAvatarSelector, getUserProfileSelector, getUserRoleSelector } from '../../../../store/selectors';
+import type { Trainer } from '../../../../types/user';
+import { updateUserThunk } from '../../../../store/thunks/userThunk';
+import type { AppDispatch } from '../../../../store';
 
 interface EditProfileProps {
-  avatar: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  dateOfBirth?: string;
-  address?: string;
-  email: string;
-  active: boolean;
   onCancel: () => void;
-  onSave: (data: EditProfileData) => void;
+  onSave: () => void;
 }
 
 export interface EditProfileData {
@@ -27,15 +24,25 @@ export interface EditProfileData {
   avatar: string;
 }
 
-const EditProfile = ({ avatar, firstName, lastName, userName, dateOfBirth, address, email, active, onCancel, onSave }: EditProfileProps) => {
-  const [firstNameVal, setFirstNameVal] = useState(firstName);
-  const [lastNameVal, setLastNameVal] = useState(lastName);
-  const [userNameVal, setUserNameVal] = useState(userName);
-  const [dateOfBirthVal, setDateOfBirthVal] = useState(dateOfBirth ?? '');
-  const [addressVal, setAddressVal] = useState(address ?? '');
-  const [emailVal, setEmailVal] = useState(email);
-  const [activeVal, setActiveVal] = useState(active);
-  const [avatarVal, setAvatarVal] = useState(avatar);
+const EditProfile = ({ onCancel, onSave }: EditProfileProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const profile = useSelector(getUserProfileSelector); // Trainer | Trainee | null — no cast
+  const role = useSelector(getUserRoleSelector);
+  const isTrainee = role === 'TRAINEE';
+
+  const [firstNameVal, setFirstNameVal] = useState(profile?.firstName ?? '');
+  const [lastNameVal, setLastNameVal] = useState(profile?.lastName ?? '');
+  const [userNameVal, setUserNameVal] = useState(profile?.username ?? '');
+  const [emailVal, setEmailVal] = useState(profile?.email ?? '');
+  const [activeVal, setActiveVal] = useState(profile?.active ?? true);
+  const [avatarVal, setAvatarVal] = useState(useSelector(getDefaultAvatarSelector));
+
+  const [dateOfBirthVal, setDateOfBirthVal] = useState(
+    profile && 'dateOfBirth' in profile ? profile.dateOfBirth : ''
+  );
+  const [addressVal, setAddressVal] = useState(
+    profile && 'address' in profile ? profile.address : ''
+  );
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,17 +54,28 @@ const EditProfile = ({ avatar, firstName, lastName, userName, dateOfBirth, addre
 
   const handleRemove = () => setAvatarVal('');
 
-  const handleSave = () => {
-    onSave({
-      firstName: firstNameVal,
-      lastName: lastNameVal,
-      userName: userNameVal,
-      dateOfBirth: dateOfBirthVal,
-      address: addressVal,
-      email: emailVal,
-      active: activeVal,
-      avatar: avatarVal,
-    });
+  const handleSave = async () => {
+    if (!profile || !role) return;
+    const data = isTrainee
+      ? {
+          username: userNameVal,
+          firstName: firstNameVal,
+          lastName: lastNameVal,
+          dateOfBirth: dateOfBirthVal,
+          address: addressVal,
+          isActive: activeVal,
+          email: emailVal,
+        }
+      : {
+          username: userNameVal,
+          firstName: firstNameVal,
+          lastName: lastNameVal,
+          specialization: (profile as Trainer).specialization, // unchanged, since we're not editing it
+          isActive: activeVal,
+          email: emailVal,
+        };
+        await dispatch(updateUserThunk({ username: profile.username, role, data }));
+        onSave(); // from parent, closesEditComponent
   };
 
   return (
@@ -88,8 +106,12 @@ const EditProfile = ({ avatar, firstName, lastName, userName, dateOfBirth, addre
         <Input label="First name" placeholder="First name" value={firstNameVal} onChange={e => setFirstNameVal(e.target.value)} />
         <Input label="Last name" placeholder="Last name" value={lastNameVal} onChange={e => setLastNameVal(e.target.value)} />
         <Input label="User name" placeholder="User name" value={userNameVal} onChange={e => setUserNameVal(e.target.value)} />
-        <Input label="Date of birth" type="date" placeholder="DD.MM.YYYY" value={dateOfBirthVal} onChange={e => setDateOfBirthVal(e.target.value)} />
-        <Input label="Address" placeholder="Address" value={addressVal} onChange={e => setAddressVal(e.target.value)} />
+        {isTrainee && (
+          <>
+            <Input label="Date of birth" type="date" placeholder="DD.MM.YYYY" value={dateOfBirthVal} onChange={e => setDateOfBirthVal(e.target.value)} />
+            <Input label="Address" placeholder="Address" value={addressVal} onChange={e => setAddressVal(e.target.value)} />
+          </>
+        )}
         <Input label="Email" placeholder="Email" value={emailVal} onChange={e => setEmailVal(e.target.value)} />
       </div>
 
