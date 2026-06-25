@@ -55,3 +55,7 @@ export const getTraineeTrainings = async (username: string, params: GetTraineeTr
 
   return await response.json();
 };
+
+export const createTraining = async()=>{
+  await console.log("CREATE TRAINING");
+}
