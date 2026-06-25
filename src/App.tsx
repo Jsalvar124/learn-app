@@ -16,6 +16,8 @@ import { setUserData } from './store/slices/userSlice';
 import { decodeToken } from './helpers/decodeToken';
 import type { AppDispatch } from './store';
 import { getUserProfileThunk } from './store/thunks/userThunk';
+import PrivateRoute from './routes/PrivateRoute';
+import TrainerRoute from './routes/TrainerRoute';
 
 function App() {
     const dispatch = useDispatch<AppDispatch>();
@@ -45,13 +47,22 @@ function App() {
       <Header />
       <main className="main">
         <Routes>
+          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/join-us" element={<JoinUs />} />
-          <Route path="/my-account" element={<StudentAccount />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/trainings" element={<Trainings />} />
-          <Route path="/change-password" element={<ChangePassword />} />
+          {/* Protected routes — must be logged in */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/my-account" element={<StudentAccount />} />
+            <Route path="/trainings" element={<Trainings />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            {/* Protected + role-restricted — must be logged in AND a trainer */}
+            <Route element={<TrainerRoute />}>
+              {/* <Route path="/trainings/add" element={<AddTraining />} /> */}
+            </Route>
+          </Route>
+
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

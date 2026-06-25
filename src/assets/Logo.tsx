@@ -1,7 +1,8 @@
 
 import styles from './Logo.module.css';
+import { Link } from 'react-router-dom';
 const Logo = () => (
-  <a href='/learn-app/' className={styles.container}> 
+  <Link to='/home' className={styles.container} title="Go to home"> 
     <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
@@ -16,7 +17,7 @@ const Logo = () => (
       <circle cx="65" cy="50" r="32" fill="url(#hatch)" clipPath="url(#leftCircle)"/>
     </svg>
     <span className={styles.text}>learn</span>
-  </a>
+  </Link>
 );
 
 export default Logo;

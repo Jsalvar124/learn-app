@@ -37,3 +37,35 @@
   font-size: 12px;
   font-weight: 400;
 }
+
+.statusScheduled {
+  height: 28px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #E8F0FEFF; /* light blue */
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.statusCompleted {
+  height: 28px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #E3F9F0FF; /* light green */
+  color: var(--color-secondary-pressed);
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+}

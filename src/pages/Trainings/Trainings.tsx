@@ -73,7 +73,7 @@ const Trainings = () => {
       <SearchTrainings onSearch={setFilters}/>
 
       <div className={styles.passedSection}>
-        <h2 className={styles.passedTitle}>{role === 'TRAINER' ? "Results" : "My passed trainings"}</h2>
+        <h2 className={styles.passedTitle}>{role === 'TRAINER' ? "Results" : "My trainings"}</h2>
         <PassedTrainings trainings={filteredTrainings} />
       </div>
     </div>
