@@ -7,16 +7,46 @@ import { useState } from 'react';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
 import { EditProfile } from './components/EditProfile';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getDefaultAvatarSelector, getUserProfileSelector } from '../../store/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDefaultAvatarSelector, getUserNameSelector, getUserProfileSelector, getUserRoleSelector } from '../../store/selectors';
 import { Trainees } from './components/Trainees';
+import { deleteTrainee } from '../../services/traineeService';
+import { deleteTrainer } from '../../services/trainerService';
+import type { AppDispatch } from '../../store';
+import { removeUserData } from '../../store/slices/userSlice';
+import toast from 'react-hot-toast';
 
 const StudentAccount = () => {
     const navigate = useNavigate();
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const role = useSelector(getUserRoleSelector);
+    const username = useSelector(getUserNameSelector);
     const profile = useSelector(getUserProfileSelector);
     const avatar = useSelector(getDefaultAvatarSelector);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleConfirmDelete = async () => {
+        if (!username || !role) return;
+        try{
+            if(role === 'TRAINEE'){
+                await deleteTrainee(username);
+            } 
+            else if(role === 'TRAINER') {
+                await deleteTrainer(username);
+            }
+            localStorage.removeItem("token");
+            dispatch(removeUserData());
+            navigate('/home');
+            toast.success("Account deleted successfully.");
+
+            } catch (err) {
+              const message = err instanceof Error ? err.message : "Failed to delete account.";
+              toast.error(message);
+            } finally {
+              setDeleteModalOpen(false)
+            }
+    }
 
     if (isEditing) {
         return (
@@ -72,10 +102,7 @@ const StudentAccount = () => {
             title="Profile Deletion Confirmation"
             description={`We're truly sorry to see you go. Before you proceed with deleting your profile, we want you to know that this action is permanent and irreversible. You'll lose access to all your account information, course progress, certificates, and any learning communities you're a part of.\n\nIf there's anything we can do to improve your experience or if you need assistance with any issues you've encountered, please reach out to our support team. We're always here to help.\n\nIf you still wish to delete your account, please click on the 'Confirm' button below.`}            confirmText="Confirm"
             cancelText="Cancel"
-            onConfirm={() => {
-                setDeleteModalOpen(false);
-                console.log('profile deleted');
-            }}
+            onConfirm={handleConfirmDelete}
             onCancel={() => setDeleteModalOpen(false)}
         />
         {/* Student Trainings */}

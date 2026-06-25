@@ -2,19 +2,22 @@ import styles from './SearchTrainings.module.css';
 import { Input } from '../../../../components/common/Input';
 import { Button } from '../../../../components/common/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useSelector } from 'react-redux';
+import { getUserRoleSelector } from '../../../../store/selectors';
 
 const SearchTrainings = () => {
+  const role = useSelector(getUserRoleSelector);
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Search Trainings</h2>
       <div className={styles.fields}>
         <Input
-          label="Trainer name"
+          label={role === 'TRAINER'? "Student name" : "Trainer name"}
           placeholder="First name"
         />
         <Input
           label="Specialization"
-          placeholder="First name"
+          placeholder="Specialization"
         />
         <div className={styles.dateField}>
           <label className={styles.dateLabel}>From</label>

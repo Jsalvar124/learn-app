@@ -25,13 +25,13 @@ const PassedTrainings = ({ trainings }: PassedTrainingsProps) => (
       </TableHead>
       <TableBody>
         {trainings.map((training, index) => (
-          <TableRow key={`${training.name}-${index}`}>
-            <TableCell className={styles.cell}>{training.date}</TableCell>
-            <TableCell className={styles.nameCell}>{training.name}</TableCell>
+          <TableRow key={`${training.trainingName}-${index}`}>
+            <TableCell className={styles.cell}>{training.trainingDate}</TableCell>
+            <TableCell className={styles.nameCell}>{training.trainingName}</TableCell>
             <TableCell className={styles.cell}>
-              <span className={styles.badge}>{training.type}</span>
+              <span className={styles.badge}>{training.trainingType}</span>
             </TableCell>
-            <TableCell className={styles.cell}>{training.trainerName}</TableCell>
+            <TableCell className={styles.cell}>{'trainerName' in training ? training.trainerName : training.traineeName}</TableCell>
             <TableCell className={styles.cell}>{training.duration}</TableCell>
           </TableRow>
         ))}

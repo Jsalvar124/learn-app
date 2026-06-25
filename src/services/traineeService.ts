@@ -32,3 +32,16 @@ export const updateTrainee = async (username: string, data: UpdateTraineePayload
 
   return await response.json();
 }
+
+export const deleteTrainee = async (username: string ): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/trainees/${username}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
+  }
+}

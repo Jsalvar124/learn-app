@@ -1,12 +1,22 @@
 export type Role = 'student' | 'trainer';
 
-export type Training = {
-  date: string;
-  name: string;
-  type: string;
+export type TrainerTraining = {
+  trainingName: string;
+  trainingDate: string;
+  trainingType: string;
+  duration: number;
+  traineeName: string;
+};
+
+export type TraineeTraining = {
+  trainingName: string;
+  trainingDate: string;
+  trainingType: string;
+  duration: number;
   trainerName: string;
-  duration: string;
-}
+};
+
+export type Training = TrainerTraining | TraineeTraining;
 
 export type ApiError = {
   error: string;
