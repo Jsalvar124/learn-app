@@ -80,3 +80,29 @@ export const login = async (data: LoginPayload): Promise<LoginResponse> => {
 
   return await response.json();
 }
+
+
+
+// Change passowrd
+export type ChangePasswordPayload = {
+  username: string;
+  oldPassword: string;
+  newPassword: string;
+};
+
+
+export const changePassword = async(data: ChangePasswordPayload): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/auth/users/password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
+  }
+}

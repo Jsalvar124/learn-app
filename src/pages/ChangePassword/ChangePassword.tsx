@@ -9,10 +9,17 @@ import {
   IconEye2Outline24,
   IconEye2SlashOutline24,
 } from 'nucleo-core-essential-outline-24';
+import { changePassword } from '../../services/userService';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserNameSelector } from '../../store/selectors';
+import type { AppDispatch } from '../../store';
+import { removeUserData } from '../../store/slices/userSlice';
+import toast from 'react-hot-toast';
 
 const ChangePassword = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
+  const username = useSelector(getUserNameSelector);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,12 +42,22 @@ const ChangePassword = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validate()) {
-      return;
+    if (!username) return; // Auth is needed
+
+    if (!validate()) return;
+    try {
+      await changePassword({ username, oldPassword: currentPassword, newPassword });
+      setIsSubmitted(true);
+      toast.success("Password changed successfully")
+      localStorage.removeItem('token');
+      dispatch(removeUserData());
+      navigate('/login');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Invalid credentials.";
+      setErrors({ form: message });
     }
-    setIsSubmitted(true);
   };
 
   const handleCancel = () => {
@@ -104,7 +121,7 @@ const ChangePassword = () => {
             state={errors.confirmPassword ? 'error' : 'default'}
             errorMessage={errors.confirmPassword ? errors.confirmPassword : undefined}
           />
-
+          {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
           <div className={styles.actions}>
             <button type="button" className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
             <Button text="Change password" variant="prime" />
