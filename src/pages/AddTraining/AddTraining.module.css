@@ -115,6 +115,23 @@
   flex-shrink: 0;
 }
 
+.readOnlyValue {
+  height: 28px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #E8F0FEFF; /* light blue, same family as your SCHEDULED badge */
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;

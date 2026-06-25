@@ -12,9 +12,9 @@ import { Breadcrumbs } from '../../components/common/Breadcrumbs';
 import { createTraining } from '../../services/trainingService';
 import type { AppDispatch } from '../../store';
 import { IconTriangleWarningOutline24 } from 'nucleo-core-essential-outline-24';
+import { getUserProfileSelector } from '../../store/selectors';
 
 
-const TRAINING_TYPES = ['CROSSFIT', 'ZUMBA', 'FUNCTIONAL', 'BOXING', 'PILATES', 'BOULDERING'];
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 const AddTraining = () => {
@@ -26,11 +26,11 @@ const AddTraining = () => {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [duration, setDuration] = useState('');
-  const [type, setType] = useState('');
   const [description, setDescription] = useState('');
   const [selectedTraineeUsername, setSelectedTraineeUsername] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const profile = useSelector(getUserProfileSelector);
 
 //   useEffect(() => {
 //     const isStale = !lastFetched || Date.now() - lastFetched > CACHE_DURATION;
@@ -44,7 +44,6 @@ const AddTraining = () => {
     if (!name) newErrors.name = 'Training name is required';
     if (!date) newErrors.date = 'Training date is required';
     if (!duration) newErrors.duration = 'Duration is required';
-    if (!type) newErrors.type = 'Type is required';
     if (!selectedTraineeUsername) newErrors.trainee = 'Please select a trainee';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -119,21 +118,7 @@ const AddTraining = () => {
 
           <div>
             <label className={styles.label}>Type</label>
-            <div className={styles.selectWrapper}>
-              <select className={styles.select} value={type} onChange={(e) => setType(e.target.value)}>
-                <option value="">Please select</option>
-                {TRAINING_TYPES.map((t) => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-              <span className={styles.selectArrow}>
-                <IconChevronDownOutline24 />
-              </span>
-            </div>
-                {errors.type && <p className={styles.errorMessage}>
-                    <IconTriangleWarningOutline24 />
-                    {errors.type}
-                </p>}
+            <p className={styles.readOnlyValue}>{profile && 'specialization' in profile ? profile.specialization : ''}</p>
           </div>
 
           <div>
