@@ -9,13 +9,6 @@ import { getUserNameSelector, getUserRoleSelector } from '../../store/selectors'
 import { useSelector } from 'react-redux';
 import { getTrainerTrainings, getTraineeTrainings } from '../../services/trainingService';
 
-
-// const PASSED_TRAININGS: Training[] = [
-//   { date: '12.03.2023', name: 'JavaScript Course 1', type: 'Webinar', trainerName: 'Matthew Martinez', duration: '15 d' },
-//   { date: '12.03.2023', name: 'JS Course 2', type: 'Webinar', trainerName: 'Matthew Martinez', duration: '10 d' },
-//   { date: '12.03.2023', name: 'Java', type: 'Webinar', trainerName: 'Maria White', duration: '2 d' },
-// ];
-
 const Trainings = () => {
   const username = useSelector(getUserNameSelector);
   const role = useSelector(getUserRoleSelector);
@@ -23,7 +16,7 @@ const Trainings = () => {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-
+  const [filters, setFilters] = useState<{ fromDate?: string; toDate?: string; partnerUsername?: string; specialization?: string }>({});
 
   useEffect(() => {
     if (!username || !role) return;
@@ -34,7 +27,7 @@ const Trainings = () => {
       try {
         const data = role === 'TRAINER'
           ? await getTrainerTrainings(username)
-          : await getTraineeTrainings(username); // once confirmed
+          : await getTraineeTrainings(username); 
         console.log(data)
         setTrainings(data);
       } catch (err) {
@@ -47,6 +40,19 @@ const Trainings = () => {
 
     fetchTrainings();
   }, [username, role]);
+
+  
+  const filteredTrainings = trainings.filter((t) => {
+    if (filters.fromDate && t.trainingDate < filters.fromDate) return false;
+    if (filters.toDate && t.trainingDate > filters.toDate) return false;
+
+    const partnerName = 'trainerName' in t ? t.trainerName : t.traineeName;
+    if (filters.partnerUsername && !partnerName.toLowerCase().includes(filters.partnerUsername.toLowerCase())) return false;
+
+    if (filters.specialization && t.trainingType !== filters.specialization) return false;
+
+    return true;
+  });
 
   return (
     <div className={styles.page}>
@@ -64,11 +70,11 @@ const Trainings = () => {
       <Button text="Add training" variant="secondary" />
       }
 
-      <SearchTrainings />
+      <SearchTrainings onSearch={setFilters}/>
 
       <div className={styles.passedSection}>
         <h2 className={styles.passedTitle}>{role === 'TRAINER' ? "Results" : "My passed trainings"}</h2>
-        <PassedTrainings trainings={trainings} />
+        <PassedTrainings trainings={filteredTrainings} />
       </div>
     </div>
   );

@@ -18,13 +18,15 @@ import toast from 'react-hot-toast';
 
 const StudentAccount = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const role = useSelector(getUserRoleSelector);
     const username = useSelector(getUserNameSelector);
     const profile = useSelector(getUserProfileSelector);
     const avatar = useSelector(getDefaultAvatarSelector);
-    const dispatch = useDispatch<AppDispatch>();
+
 
     const handleConfirmDelete = async () => {
         if (!username || !role) return;
