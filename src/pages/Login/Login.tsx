@@ -24,6 +24,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [captcha, setCaptcha] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -31,6 +32,7 @@ const Login = () => {
     const newErrors: Record<string, string> = {};
     if (!username) newErrors.username = 'Username is required';
     if (!password) newErrors.password = 'password is required';
+    if (!captcha) newErrors.captcha = 'Please confirm you are not a robot';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -62,7 +64,7 @@ const Login = () => {
       }))
 
       toast.success("Login successful!");
-      navigate("/my-account");
+      navigate("/home");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Invalid username or password.";
       setErrors({ form: message });
@@ -100,6 +102,8 @@ const Login = () => {
           state={errors.password ? 'error' : 'default'}
         />
         {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
+        {errors.captcha && <p className={styles.errorMessage}>{errors.captcha}</p>}
+
         <Button text="Sign In" variant="prime" fullWidth />
 
         <p className={styles.divider}>OR</p>
@@ -111,7 +115,7 @@ const Login = () => {
 
         {/* reCAPTCHA mock */}
         <div className={styles.captcha}>
-          <input type="checkbox" className={styles.captchaCheckbox} />
+          <input type="checkbox" className={styles.captchaCheckbox} onChange={e => setCaptcha(e.target.checked)}  />
           <span className={styles.captchaText}>I'm not a robot</span>
           <IconCircleHalfDashedCheckOutline24 />
         </div>
