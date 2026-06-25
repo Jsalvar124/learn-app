@@ -104,7 +104,7 @@ const Login = () => {
         {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
         {errors.captcha && <p className={styles.errorMessage}>{errors.captcha}</p>}
 
-        <Button text="Sign In" variant="prime" fullWidth />
+        <Button text="Sign In" variant="prime" fullWidth type = 'submit' />
 
         <p className={styles.divider}>OR</p>
 

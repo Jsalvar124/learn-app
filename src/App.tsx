@@ -18,6 +18,7 @@ import type { AppDispatch } from './store';
 import { getUserProfileThunk } from './store/thunks/userThunk';
 import PrivateRoute from './routes/PrivateRoute';
 import TrainerRoute from './routes/TrainerRoute';
+import { AddTraining } from './pages/AddTraining';
 
 function App() {
     const dispatch = useDispatch<AppDispatch>();
@@ -59,7 +60,7 @@ function App() {
             <Route path="/change-password" element={<ChangePassword />} />
             {/* Protected + role-restricted — must be logged in AND a trainer */}
             <Route element={<TrainerRoute />}>
-              {/* <Route path="/trainings/add" element={<AddTraining />} /> */}
+              <Route path="/trainings/add" element={<AddTraining />} />
             </Route>
           </Route>
 

@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDefaultAvatarSelector, getUserNameSelector, getUserProfileSelector, getUserRoleSelector } from '../../store/selectors';
 import { Trainees } from './components/Trainees';
 import { deleteTrainee } from '../../services/traineeService';
-import { deleteTrainer } from '../../services/trainerService';
+import { deactivateTrainer } from '../../services/trainerService';
 import type { AppDispatch } from '../../store';
 import { removeUserData } from '../../store/slices/userSlice';
 import toast from 'react-hot-toast';
@@ -35,7 +35,7 @@ const StudentAccount = () => {
                 await deleteTrainee(username);
             } 
             else if(role === 'TRAINER') {
-                await deleteTrainer(username);
+                await deactivateTrainer(username);
             }
             localStorage.removeItem("token");
             dispatch(removeUserData());

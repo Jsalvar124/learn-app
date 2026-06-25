@@ -33,12 +33,14 @@ export const updateTrainer = async (username: string, data: UpdateTrainerPayload
   return await response.json();
 }
 
-export const deleteTrainer = async (username: string ): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/trainers/${username}`, {
-    method: "DELETE",
+export const deactivateTrainer = async (username: string ): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/trainers/${username}/state`, {
+    method: "PATCH",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
+    body: JSON.stringify({ isActive: false }),
   });
   if (!response.ok) {
     const errorBody: ApiError = await response.json();

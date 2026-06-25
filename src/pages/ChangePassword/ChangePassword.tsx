@@ -124,7 +124,7 @@ const ChangePassword = () => {
           {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
           <div className={styles.actions}>
             <button type="button" className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
-            <Button text="Change password" variant="prime" />
+            <Button text="Change password" variant="prime" type='submit' />
           </div>
         </form>
       </div>

@@ -127,7 +127,7 @@ const EditProfile = ({ onCancel, onSave }: EditProfileProps) => {
 
       <div className={styles.formActions}>
         <Button text="Cancel" variant="secondary" onClick={onCancel} />
-        <Button text="Save" variant="prime" onClick={handleSave} />
+        <Button text="Save" variant="prime" onClick={handleSave} type='submit' />
       </div>
     </div>
   );

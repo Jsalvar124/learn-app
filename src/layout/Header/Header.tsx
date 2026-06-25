@@ -60,9 +60,7 @@ const Header = () => {
             ) : (
               <>
                 <Link to="/login" className={styles.signIn} >Sign in</Link>
-                <Link to="/join-us" className={styles.link}>
-                  <Button text="Join us" variant="prime" size="sm" />
-                </Link>
+                <Button text="Join us" variant="prime" size="sm" to="/join-us" />
               </>
             )}
           </div>

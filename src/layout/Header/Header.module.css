@@ -58,12 +58,6 @@
   text-decoration: underline;
 }
 
-.link {
-  display: inline-flex;
-  color: inherit;
-  text-decoration: none;
-}
-
 .userSection {
   display: flex;
   align-items: center;

@@ -172,6 +172,7 @@ const Registration = () => {
                   text="Submit"
                   variant="prime"
                   fullWidth
+                  type="submit"
                 />
               </div>
             </form>

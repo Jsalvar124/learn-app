@@ -22,7 +22,7 @@ const ConfirmModal = ({ open, title, description, confirmText = 'Confirm', cance
       <p className={styles.description}>{description}</p>
       <div className={styles.actions}>
         <button className={styles.cancel} onClick={onCancel}>{cancelText}</button>
-        <Button text={confirmText} variant="important" onClick={onConfirm} />
+        <Button text={confirmText} variant="important" onClick={onConfirm} type='submit' />
       </div>
     </div>
   </Modal>
