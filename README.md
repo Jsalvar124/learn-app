@@ -14,9 +14,9 @@ The frontend now talks to a separate **Java + Spring** backend at `http://localh
 
 ### Status of each flow
 
-**Working end-to-end against the backend:** login, registration for both roles (trainer / trainee), token rehydration on refresh, profile view + edit on `/my-account` (writes through `updateUserThunk`), change password (logs the user out on success), the `/trainings` list (which renders either the trainer view or the trainee view based on the role in Redux), and the trainer-only `/trainings/add` form (which populates its trainee dropdown from the cached `trainees` slice).
+**Working end-to-end against the backend:** login; registration for both roles (the backend returns backend-generated credentials, which `RegistrationSuccess` displays immediately after signup); token rehydration on refresh; profile view and edit on `/my-account`; change password (logs the user out on success); account deletion from `/my-account` — trainees are hard-deleted (`DELETE /trainees/{username}`) while trainers are soft-deactivated (`PATCH /trainers/{username}/state`); the `/trainings` list (trainer view or trainee view based on Redux role); and the trainer-only `/trainings/add` form.
 
-**UI-only / not wired:** the **delete profile** action on `/my-account` opens its confirmation modal but only logs to the console — no `DELETE /trainees/{username}` call is made from the component. The **Header anchors** `Blog` / `Pricing` / `About Us` are placeholder `<a href="#">`. A `/registration-verification` page is on the roadmap but not built yet.
+**Not yet wired:** the **"Add Trainer"** button on the `/my-account` sidebar only logs to the console. The **Header anchors** `Blog` / `Pricing` / `About Us` are still placeholder `<a href="#">`. The **trainee status column** in the trainer's account view always renders `"ACTIVE"` instead of reading the real `active` field from the backend response.
 
 ### Routes
 
@@ -156,7 +156,7 @@ All services use the native Fetch API — no axios, no shared HTTP wrapper. One 
 | --- | --- |
 | `getTraineeByUsername` | `GET /trainees/{username}` |
 | `updateTrainee` | `PUT /trainees/{username}` |
-| `deleteTrainee` | `DELETE /trainees/{username}` — service exists but is not yet called from the UI |
+| `deleteTrainee` | `DELETE /trainees/{username}` — called from `handleConfirmDelete` in `StudentAccount` when a trainee deletes their account |
 | `getTrainees` | `GET /trainees` — returns `TraineeSummary[]`; used by `AddTraining` |
 
 #### `trainingService.ts`
@@ -292,8 +292,8 @@ Add new app-wide providers in `main.tsx`, not in `App.tsx`.
 
 ## Roadmap
 
-- `/registration-verification` page (planned, not built).
-- Wire the delete-profile action on `/my-account` to `deleteTrainee` (`DELETE /trainees/{username}` — the service exists).
+- Wire the **"Add Trainer"** action on `/my-account` (currently only logs to the console).
+- Show real `active` status for trainees in the trainer's account view (currently hardcoded to `"ACTIVE"`).
 - Add typed Redux hooks (`useAppDispatch`, `useAppSelector`) and migrate call sites.
 - Move `BASE_URL` out of `src/services/index.ts` and into a Vite `.env` variable.
 - A test runner and component / integration tests (none configured today).
