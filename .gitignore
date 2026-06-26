@@ -26,3 +26,6 @@ dist-ssr
 # Claude Code — personal and secret files
 .claude/settings.local.json
 .claude/.credentials.json
+
+# Playwright MCP — auto-generated snapshots and console logs from testing sessions
+.playwright-mcp/
