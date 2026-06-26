@@ -1,5 +1,5 @@
 // services/trainerService.ts
-import type { Trainee } from "../types/user";
+import type { Trainee, TraineeSummary } from "../types/user";
 import type { ApiError } from "../types";
 import { BASE_URL } from ".";
 import type { UpdateTraineePayload } from "../types/user";
@@ -44,4 +44,18 @@ export const deleteTrainee = async (username: string ): Promise<void> => {
     const errorBody: ApiError = await response.json();
     throw new Error(errorBody.message);
   }
+}
+
+export const getTrainees = async (): Promise<TraineeSummary[]> => {
+  const response = await fetch(`${BASE_URL}/trainees` , {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+  });
+  if(!response.ok){
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
+  }
+  return await response.json();
 }

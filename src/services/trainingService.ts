@@ -14,6 +14,14 @@ export type GetTraineeTrainingsParams = {
   trainerUsername?: string;
 };
 
+export type CreateTrainingPayload = {
+  traineeUsername: string,
+  trainerUsername: string,
+  trainingName: string,
+  trainingDate: string,
+  trainingDuration: number
+};
+
 export const getTrainerTrainings = async (username: string, params: GetTrainerTrainingsParams = {}): Promise<Training[]> => {
   const query = new URLSearchParams();
   if (params.fromDate) query.set("fromDate", params.fromDate);
@@ -56,6 +64,18 @@ export const getTraineeTrainings = async (username: string, params: GetTraineeTr
   return await response.json();
 };
 
-export const createTraining = async()=>{
-  await console.log("CREATE TRAINING");
+export const createTraining = async( data: CreateTrainingPayload ): Promise<void> =>{
+  const response = await fetch(`${BASE_URL}/trainings`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json", 
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify(data)
+  });
+  if(!response.ok){
+    const errorBody: ApiError = await response.json();
+    throw new Error(errorBody.message);
+  }
 }
