@@ -7,8 +7,8 @@ import styles from './AddTraining.module.css';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Breadcrumbs } from '../../components/common/Breadcrumbs';
-// import { getAllTraineesSelector, getTraineesLastFetchedSelector } from '../../store/selectors';
-// import { getAllTraineesThunk } from '../../store/thunks/traineeThunk';
+import { getAllTraineesSelector, getTraineesLastFetchedSelector, getUserNameSelector } from '../../store/selectors';
+import { getAllTraineesThunk } from '../../store/thunks/traineeThunk';
 import { createTraining } from '../../services/trainingService';
 import type { AppDispatch } from '../../store';
 import { IconTriangleWarningOutline24 } from 'nucleo-core-essential-outline-24';
@@ -20,8 +20,8 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 const AddTraining = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const trainees = [{username: "Juan.Perez", firstName: "Juan", lastName: "Perez"}, {username: "Hugo.Paez", firstName: "Hugo", lastName: "Paez"}];
-//   const lastFetched = useSelector(getTraineesLastFetchedSelector);
+  const lastFetched = useSelector(getTraineesLastFetchedSelector);
+  const trainees = useSelector(getAllTraineesSelector);
 
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
@@ -29,15 +29,16 @@ const AddTraining = () => {
   const [description, setDescription] = useState('');
   const [selectedTraineeUsername, setSelectedTraineeUsername] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // used to disable button during submision.
   const profile = useSelector(getUserProfileSelector);
+  const username = useSelector(getUserNameSelector);
 
-//   useEffect(() => {
-//     const isStale = !lastFetched || Date.now() - lastFetched > CACHE_DURATION;
-//     if (isStale) {
-//       dispatch(getAllTraineesThunk());
-//     }
-//   }, []);
+  useEffect(() => {
+    const isStale = !lastFetched || Date.now() - lastFetched > CACHE_DURATION;
+    if (isStale) {
+      dispatch(getAllTraineesThunk());
+    }
+  }, []);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -51,17 +52,17 @@ const AddTraining = () => {
 
   const handleSubmit = async () => {
     if (!validate()) return;
+    if(!username) return;
 
     setIsSubmitting(true);
     try {
-    //   await createTraining({
-    //     trainingName: name,
-    //     trainingDate: date,
-    //     trainingType: type,
-    //     duration: Number(duration),
-    //     traineeUsername: selectedTraineeUsername,
-    //   });
-      await createTraining();
+      await createTraining({
+        trainingName: name,
+        trainingDate: date,
+        trainerUsername: username,
+        trainingDuration: Number(duration),
+        traineeUsername: selectedTraineeUsername,
+      });
       toast.success('Training added successfully!');
       navigate('/trainings');
     } catch (err) {
@@ -143,7 +144,7 @@ const AddTraining = () => {
               <option value="">Please select</option>
               {trainees.map((trainee) => (
                 <option key={trainee.username} value={trainee.username}>
-                  {trainee.firstName} {trainee.lastName}
+                  {trainee.firstName} {trainee.lastName} - ({trainee.username})
                 </option>
               ))}
             </select>

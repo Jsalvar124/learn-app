@@ -10,3 +10,7 @@ export const getDefaultAvatarSelector = (_state: RootState) => defaultAvatar; //
 
 // Profile
 export const getUserProfileSelector = (state: RootState) => state.user.profile;
+
+// Trainees
+export const getAllTraineesSelector = (state: RootState) => state.trainees.items;
+export const getTraineesLastFetchedSelector = (state: RootState) => state.trainees.lastFetched;
