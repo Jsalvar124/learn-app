@@ -58,7 +58,7 @@ const Registration = () => {
     if (validate()) {
       setIsLoading(true);
 
-      const email = `${firstName.toLowerCase()}_${role}_${Math.floor(Math.random() * 1000)}@learn.com`;
+      const email = `${firstName.toLowerCase()}_${Math.floor(Math.random() * 1000)}@learn.com`;
       // API CALL
       try {
         const response = isTrainer
