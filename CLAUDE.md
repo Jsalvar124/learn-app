@@ -10,8 +10,8 @@ Package manager: **npm** (lockfile is `package-lock.json`).
 - `npm run build` — type-check (`tsc -b`) then produce a production build
 - `npm run lint` — run ESLint over the project
 - `npm run preview` — serve the built `dist/` locally
-
-There is no test runner configured.
+- `npm run test` — run Vitest in watch mode
+- `npm run test:run` — run Vitest once (CI-friendly, no watch)
 
 ## Architecture
 
@@ -67,11 +67,35 @@ For navigation, use `<Link>` / `<NavLink>` from `react-router-dom` for in-app ro
 - `routes/` — `PrivateRoute.tsx`, `TrainerRoute.tsx`
 - `helpers/` — `decodeToken.ts`
 - `assets/` — images and the `Logo.tsx` component
+- `test/` — Vitest test files mirroring the source tree:
+  - `store/slices/` — reducer unit tests (`userSlice.test.ts`, `traineeSlice.test.ts`)
+  - `pages/` — component tests (`Login.test.tsx`, `Registration.test.tsx`)
+  - `layout/` — layout component tests (`Header.test.tsx`)
+  - `routes/` — route guard tests (`PrivateRoute.test.tsx`, `TrainerRoute.test.tsx`)
+  - `setup.ts` — global test setup (imports `@testing-library/jest-dom` matchers)
 - `types/` — shared TypeScript types:
   - `types/index.ts` — `Role`, `TrainerTraining`, `TraineeTraining`, `Training` (union), `ApiError`
   - `types/user.ts` — `Trainer`, `Trainee`, `TrainerSummary`, `TraineeSummary`, `UpdateTrainerPayload`, `UpdateTraineePayload`
 
 Reuse these types instead of redefining shapes locally.
+
+## Testing
+
+**Test runner:** [Vitest](https://vitest.dev/) with `jsdom` as the DOM environment. Configured in `vite.config.ts` under the `test` key (note the import is from `vitest/config`, not `vite`). Global test setup in `src/test/setup.ts` imports `@testing-library/jest-dom` so matchers like `toBeInTheDocument()` are available in every file.
+
+**Libraries:**
+- `vitest` — test runner and assertion API (`describe`, `it`, `expect`, `vi`)
+- `@testing-library/react` — `render`, `screen`, `fireEvent`, `waitFor`
+- `@testing-library/user-event` — higher-level user interaction simulation
+- `@testing-library/jest-dom` — custom DOM matchers
+
+**Test organisation** mirrors the source tree under `src/test/`:
+- Slice tests (`store/slices/`) are pure reducer unit tests — no rendering, no providers, just call the reducer with an action and assert the new state.
+- Component / page tests wrap the component in a real `configureStore` + `<Provider>` + `<MemoryRouter>`. Use `preloadedState` to set up Redux state instead of mocking selectors.
+- Route guard tests (`routes/`) render a minimal `<Routes>` tree (sentinel `<div>` elements as child routes) and assert which sentinel is visible after navigation.
+- Service calls in integration-style tests are mocked with `vi.spyOn(module, 'fn').mockResolvedValue(...)` — do not mock the Redux store or its internals.
+
+**`Input` component** uses `useId()` to generate a stable id, paired with `htmlFor` on the `<label>`. Use `screen.getByLabelText(/label text/i)` to find inputs in tests — this is more resilient than querying by placeholder.
 
 ## Styling
 

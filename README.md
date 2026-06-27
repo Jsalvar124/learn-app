@@ -73,6 +73,8 @@ Vite will print a local URL (usually http://localhost:5173/learn-app/) — open 
 | `npm run build` | Type-check (`tsc -b`) then produce a production build into `dist/`. |
 | `npm run lint` | Run ESLint over the project. |
 | `npm run preview` | Serve the built `dist/` locally. |
+| `npm run test` | Run Vitest in watch mode. |
+| `npm run test:run` | Run Vitest once (CI-friendly, no watch). |
 | `npm run predeploy` | Runs automatically before `deploy`; builds the project. |
 | `npm run deploy` | Publishes `dist/` to GitHub Pages via `gh-pages`. |
 
@@ -107,6 +109,13 @@ Vite will print a local URL (usually http://localhost:5173/learn-app/) — open 
 
 ### Notifications
 - **react-hot-toast** — drives the toaster shown after successful actions and for the `TrainerRoute` redirect error. Wrapped by the project's own `components/common/SuccessToast` for the success variant.
+
+### Testing
+- **Vitest** (`^4.1.9`) — test runner configured inside `vite.config.ts` with `jsdom` as the DOM environment.
+- **@testing-library/react** (`^16.3.2`) — component rendering and querying.
+- **@testing-library/user-event** (`^14.6.1`) — higher-level user interaction simulation.
+- **@testing-library/jest-dom** (`^6.9.1`) — custom DOM matchers (`toBeInTheDocument`, etc.).
+- **jsdom** (`^29.1.1`) — browser-like DOM for the test environment.
 
 ### Linting
 - **ESLint 10** with `typescript-eslint`, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh`.
@@ -223,6 +232,12 @@ src/
 │   └── TrainerRoute.tsx
 ├── helpers/
 │   └── decodeToken.ts
+├── test/
+│   ├── setup.ts
+│   ├── store/slices/           # userSlice.test.ts, traineeSlice.test.ts
+│   ├── pages/                  # Login.test.tsx, Registration.test.tsx
+│   ├── layout/                 # Header.test.tsx
+│   └── routes/                 # PrivateRoute.test.tsx, TrainerRoute.test.tsx
 ├── layout/
 │   ├── Header/             # auth-aware; + MobileMenu, DesktopMenu
 │   └── Footer/             # + LanguageMenu
@@ -244,6 +259,25 @@ src/
     ├── ChangePassword/     # + ChangePasswordSuccess
     └── NotFound/
 ```
+
+### Tests
+```
+src/test/
+├── setup.ts                        # Imports @testing-library/jest-dom globally
+├── store/slices/
+│   ├── userSlice.test.ts           # Reducer unit tests: setUserData, removeUserData
+│   └── traineeSlice.test.ts        # Reducer unit tests: pending / fulfilled / rejected
+├── pages/
+│   ├── Login.test.tsx              # Validation errors when fields are empty
+│   └── Registration.test.tsx       # Role-specific fields + success screen after submit
+├── layout/
+│   └── Header.test.tsx             # Auth-aware rendering (logged-out vs logged-in)
+└── routes/
+    ├── PrivateRoute.test.tsx        # Redirect to /login when unauthenticated
+    └── TrainerRoute.test.tsx        # Role check: trainee redirect + trainer access
+```
+
+Component tests wrap the component under test in a real `configureStore` + `<Provider>` + `<MemoryRouter>`. Slice tests are pure reducer calls — no rendering required. Service calls are mocked with `vi.spyOn`.
 
 ### Co-location convention
 Every component lives in its **own folder** alongside its `.tsx`, its `.module.css`, and an `index.ts` barrel that re-exports it. Page-specific subcomponents live under `pages/<Page>/components/<Subcomponent>/`, so a page's tree is self-contained and easy to move or delete.
@@ -296,7 +330,7 @@ Add new app-wide providers in `main.tsx`, not in `App.tsx`.
 - Show real `active` status for trainees in the trainer's account view (currently hardcoded to `"ACTIVE"`).
 - Add typed Redux hooks (`useAppDispatch`, `useAppSelector`) and migrate call sites.
 - Move `BASE_URL` out of `src/services/index.ts` and into a Vite `.env` variable.
-- A test runner and component / integration tests (none configured today).
+- Expand test coverage: thunks, service layer, and remaining page components.
 
 ---
 
