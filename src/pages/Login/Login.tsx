@@ -87,6 +87,7 @@ const Login = () => {
           onChange={e => setUsername(e.target.value)}
           iconLeft={<IconUser3Outline24 />}
           state={errors.username ? 'error' : 'default'}
+          errorMessage={errors.username}
         />
 
         <Input
@@ -100,6 +101,7 @@ const Login = () => {
           iconRightTooltip={showPassword ? 'Hide password' : 'Show password'}
           onIconRightClick={() => setShowPassword(!showPassword)}
           state={errors.password ? 'error' : 'default'}
+          errorMessage={errors.password}
         />
         {errors.form && <p className={styles.errorMessage}>{errors.form}</p>}
         {errors.captcha && <p className={styles.errorMessage}>{errors.captcha}</p>}
