@@ -1,11 +1,10 @@
 // index.ts
 export { default as Input } from './Input';
 import styles from './Input.module.css';
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import { 
 IconTriangleWarningOutline24 
 } from 'nucleo-core-essential-outline-24';
-
 
 interface InputProps {
   label?: string;
@@ -35,12 +34,16 @@ const Input = ({
   disabled = false,
   state = 'default',
   errorMessage
-}: InputProps) => (
+}: InputProps) => {
+  const inputId = useId();
+  return(
+  
   <div className={styles.wrapper}>
-    {label && <label className={styles.label}>{label}</label>}
+    {label && <label htmlFor={inputId} className={styles.label}>{label}</label>}
     <div className={styles.inputWrapper}>
       {iconLeft && <span className={styles.iconLeft}>{iconLeft}</span>}
       <input
+        id={inputId}
         type={type}
         placeholder={placeholder}
         value={value}
@@ -67,6 +70,6 @@ const Input = ({
     </p>
     }
   </div>
-);
+)};
 
 export default Input;
