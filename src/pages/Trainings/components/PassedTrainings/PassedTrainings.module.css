@@ -31,7 +31,7 @@
   height: 24px;
   padding: 0 10px;
   border-radius: 14px;
-  background: #EEEBFB;
+  background: var(--color-badge-purple);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 12px;
@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: #E8F0FEFF; /* light blue */
+  background: var(--color-badge-blue);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 12px;
@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: #E3F9F0FF; /* light green */
+  background: var(--color-badge-green);
   color: var(--color-secondary-pressed);
   font-family: var(--font-body);
   font-size: 12px;

@@ -65,7 +65,7 @@
 
 .select:focus {
   border-color: var(--color-primary);
-  background: #FFFFFF;
+  background: var(--color-bg);
 }
 
 .selectArrow {
@@ -123,7 +123,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: #E8F0FEFF; /* light blue, same family as your SCHEDULED badge */
+  background: var(--color-badge-blue);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 12px;

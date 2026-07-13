@@ -82,7 +82,7 @@ const Login = () => {
 
         <Input
           label="User name"
-          placeholder="Enter email"
+          placeholder="Enter username"
           value={username}
           onChange={e => setUsername(e.target.value)}
           iconLeft={<IconUser3Outline24 />}

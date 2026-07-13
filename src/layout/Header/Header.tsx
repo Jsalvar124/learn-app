@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDefaultAvatarSelector, getIsAuthSelector, getUserNameSelector } from '../../store/selectors';
 import type { AppDispatch } from '../../store';
 import { removeUserData } from '../../store/slices/userSlice';
+import { useTheme } from '../../hooks/useTheme';
 
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
   const isAuth = useSelector(getIsAuthSelector);
   const username = useSelector(getUserNameSelector);
   const avatar = useSelector(getDefaultAvatarSelector)
@@ -54,6 +56,8 @@ const Header = () => {
                 <DesktopMenu
                   onSignOut={handleSignOut}
                   onClose={() => setDesktopMenuOpen(false)}
+                  isDark={isDark}
+                  toggleTheme={toggleTheme}
                 />
               )}
               </div>
@@ -71,6 +75,8 @@ const Header = () => {
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
         onSignOut={handleSignOut}
+        isDark={isDark}
+        toggleTheme={toggleTheme}
       />
     </>
   );

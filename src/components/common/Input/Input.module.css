@@ -27,7 +27,8 @@
   font-size: 16px;
   line-height: 26px;
   font-weight: 400;
-  background: #F3F4F6;
+  background: var(--color-surface);
+  color: var(--color-neutral-900);
   border-radius: 6px;
   border: 1px solid transparent;
   outline: none;
@@ -36,29 +37,29 @@
 }
 
 .input:hover {
-  background: #F3F4F6;
+  background: var(--color-surface);
   border-color: var(--color-neutral-450);
 }
 
 .input:focus {
-  background: #FFFFFF;
+  background: var(--color-bg);
   border-color: var(--color-primary);
 }
 
 .input:disabled {
-  background: #F3F4F6;
-  color: #BCC1CA;
+  background: var(--color-surface);
+  color: var(--color-neutral-400);
   border-color: transparent;
 }
 
 .error {
-  background: #FFFFFF;
+  background: var(--color-bg);
   border-color: var(--color-danger);
   color: var(--color-danger);
 }
 
 .valid {
-  background: #FFFFFF;
+  background: var(--color-bg);
   border-color: var(--color-secondary);
   color: var(--color-secondary);
 }
@@ -72,7 +73,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  color: #BCC1CA;
+  color: var(--color-neutral-400);
 }
 
 .iconLeft svg {
@@ -92,7 +93,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  color: #BCC1CA;
+  color: var(--color-neutral-400);
 }
 
 .iconRight svg {

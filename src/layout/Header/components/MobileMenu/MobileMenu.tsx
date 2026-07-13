@@ -9,9 +9,11 @@ interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   onSignOut?: () => void;
+  isDark: boolean;
+  toggleTheme: () => void;
 }
 
-const MobileMenu = ({ isOpen, onClose, onSignOut }: MobileMenuProps) => {
+const MobileMenu = ({ isOpen, onClose, onSignOut, isDark, toggleTheme }: MobileMenuProps) => {
   const isAuth = useSelector(getIsAuthSelector);
   const avatar = useSelector(getDefaultAvatarSelector);
   const username = useSelector(getUserNameSelector);
@@ -52,6 +54,15 @@ const MobileMenu = ({ isOpen, onClose, onSignOut }: MobileMenuProps) => {
           {isAuth && (
             <Link to="/my-account" className={styles.navLink}>My Account</Link>
           )}
+          <div className={styles.nightModeRow}>
+            <span>Night mode</span>
+            <button
+              className={`${styles.toggle} ${isDark ? styles.toggleOn : styles.toggleOff}`}
+              onClick={toggleTheme}
+            >
+              <span className={styles.toggleCircle} />
+            </button>
+          </div>
         </nav>
 
         {isAuth ? (

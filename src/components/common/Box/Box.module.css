@@ -4,8 +4,8 @@
     border-radius: 8px;
     overflow: hidden;
     border: none;
-    box-shadow: 0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1F;
-    background: #FFFFFFFF;
+    box-shadow: var(--shadow-card);
+    background: var(--color-bg);
     max-width: 376px;
 }
 
@@ -60,7 +60,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 14px;
-    background: #F3F4F6FF;
+    background: var(--color-surface);
     border: none;
     font-family: var(--font-body);
     font-size: 12px;
@@ -71,11 +71,11 @@
 }
 
 .badge:hover {
-    color: #323842FF;
-    background: #CFD2DAFF;
+    color: var(--color-neutral-900);
+    background: var(--color-border-alt);
 }
 
 .badge:active {
-    color: #323842FF;
+    color: var(--color-neutral-900);
     background: var(--color-neutral-450);
 }

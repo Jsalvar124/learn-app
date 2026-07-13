@@ -45,7 +45,7 @@
 .datePickerInput :global(.MuiOutlinedInput-root) {
   height: 36px;
   border-radius: 6px;
-  background: #FFFFFF;
+  background: var(--color-bg);
   font-family: var(--font-body);
   font-size: 14px;
 }

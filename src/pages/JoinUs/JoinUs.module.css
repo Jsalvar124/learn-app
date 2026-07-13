@@ -4,7 +4,7 @@
   flex-direction: column;
   padding: 64px 132px;
   gap: 32px;
-  background: #FFFFFF;
+  background: var(--color-bg);
 }
 
 .title {
@@ -12,7 +12,7 @@
   font-size: 48px;
   line-height: 78px;
   font-weight: 700;
-  color: #171A1F;
+  color: var(--color-neutral-900);
   align-self: center;
 }
 

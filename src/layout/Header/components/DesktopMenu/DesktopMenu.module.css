@@ -12,7 +12,7 @@
   top: 60px;
   right: 0;
   width: 256px;
-  background: #FFFFFF;
+  background: var(--color-bg);
   border-radius: 6px;
   box-shadow: 0px 4px 9px #171a1f1C, 0px 0px 2px #171a1f1F;
   z-index: 100;
@@ -32,7 +32,7 @@
   height: 48px;
   border-radius: 50%;
   overflow: hidden;
-  background: #CFCBF3;
+  background: var(--color-accent-light);
   flex-shrink: 0;
 }
 
@@ -62,7 +62,7 @@
 
 .divider {
   height: 1px;
-  background: #DEE1E6;
+  background: var(--color-border);
 }
 
 .nav {
@@ -79,14 +79,14 @@
   padding: 12px 16px;
   font-family: var(--font-body);
   font-size: 14px;
-  color: #565E6C;
+  color: var(--color-neutral-700);
   text-decoration: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .navItem:hover {
-  background: #F3F4F6;
+  background: var(--color-surface);
 }
 
 .navItem span:last-child {
@@ -129,7 +129,7 @@
   padding: 16px;
   font-family: var(--font-body);
   font-size: 14px;
-  color: #565E6C;
+  color: var(--color-neutral-700);
   background: none;
   border: none;
   cursor: pointer;
@@ -138,5 +138,5 @@
 }
 
 .signOut:hover {
-  background: #F3F4F6;
+  background: var(--color-surface);
 }
