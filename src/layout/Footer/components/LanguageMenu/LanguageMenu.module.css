@@ -10,13 +10,13 @@
   padding-right: 34px;
   font-family: var(--font-body);
   font-size: 14px;
-  background: #EAECEF;
+  background: var(--color-border-alt);
   border-radius: 6px;
   border: none;
   outline: none;
   cursor: pointer;
   appearance: none;
-  color: #171A1F;
+  color: var(--color-neutral-900);
 }
 
 .languageArrow {
@@ -29,7 +29,7 @@
   align-items: center;
   width: 16px;
   height: 16px;
-  color: #171A1F;
+  color: var(--color-neutral-900);
 }
 
 .languageArrow svg {

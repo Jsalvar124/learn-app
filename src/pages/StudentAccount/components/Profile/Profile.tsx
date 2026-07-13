@@ -1,18 +1,17 @@
 import styles from './Profile.module.css';
+import type { Trainer, Trainee } from '../../../../types/user';
 
 interface ProfileProps {
+  profile: Trainer | Trainee;
   avatar: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  dateOfBirth?: string;
-  address?: string;
-  email: string;
-  active: boolean;
 }
 
-const Profile = ({avatar, firstName, lastName, userName, dateOfBirth, address, email, active}: ProfileProps) => {
-    
+const Profile = ({ profile, avatar }: ProfileProps) => {
+    const { firstName, lastName, username, email, active } = profile;
+    const dateOfBirth = 'dateOfBirth' in profile ? profile.dateOfBirth : undefined;
+    const address = 'address' in profile ? profile.address : undefined;
+    const specialization = 'specialization' in profile ? profile.specialization : undefined;
+
     return(
     <div className={styles.container}>
         <h2 className={styles.title}>My profile</h2>
@@ -40,8 +39,14 @@ const Profile = ({avatar, firstName, lastName, userName, dateOfBirth, address, e
         </div>
         <div className={styles.field}>
             <span className={styles.fieldLabel}>User Name</span>
-            <span className={styles.fieldValue}>{userName}</span>
+            <span className={styles.fieldValue}>{username}</span>
         </div>
+        {specialization && (
+        <div className={styles.field}>
+            <span className={styles.fieldLabel}>Specialization</span>
+            <span className={styles.fieldValue}>{specialization}</span>
+        </div>
+        )}
         {dateOfBirth && (
             <div className={styles.field}>
             <span className={styles.fieldLabel}>Date of birth</span>

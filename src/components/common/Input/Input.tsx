@@ -1,7 +1,10 @@
 // index.ts
 export { default as Input } from './Input';
 import styles from './Input.module.css';
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
+import { 
+IconTriangleWarningOutline24 
+} from 'nucleo-core-essential-outline-24';
 
 interface InputProps {
   label?: string;
@@ -15,6 +18,7 @@ interface InputProps {
   onIconRightClick?: () => void;
   disabled?: boolean;
   state?: 'default' | 'error' | 'valid';
+  errorMessage?: string;
 }
 
 const Input = ({
@@ -28,13 +32,18 @@ const Input = ({
   iconRightTooltip,
   onIconRightClick,
   disabled = false,
-  state = 'default'
-}: InputProps) => (
+  state = 'default',
+  errorMessage
+}: InputProps) => {
+  const inputId = useId();
+  return(
+  
   <div className={styles.wrapper}>
-    {label && <label className={styles.label}>{label}</label>}
+    {label && <label htmlFor={inputId} className={styles.label}>{label}</label>}
     <div className={styles.inputWrapper}>
       {iconLeft && <span className={styles.iconLeft}>{iconLeft}</span>}
       <input
+        id={inputId}
         type={type}
         placeholder={placeholder}
         value={value}
@@ -49,12 +58,18 @@ const Input = ({
         `}      
       />
       {iconRight && (
-        <button className={styles.iconRight} onClick={onIconRightClick} title={iconRightTooltip}>
+        <button type="button" className={styles.iconRight} onClick={onIconRightClick} title={iconRightTooltip}>
           {iconRight}
         </button>
       )}
     </div>
+    {errorMessage && 
+    <p className={styles.errorMessage}>
+      <IconTriangleWarningOutline24 />
+      {errorMessage}
+    </p>
+    }
   </div>
-);
+)};
 
 export default Input;

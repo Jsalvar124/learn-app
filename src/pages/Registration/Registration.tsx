@@ -7,16 +7,15 @@ import { RegistrationSuccess } from './components/RegistrationSuccess';
 import type { Role } from '../../types';
 import trainerImg from '../../assets/trainer-registration.png';
 import studentImg from '../../assets/student-registration.png';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
-// import { SuccessToast } from '../../components/common/SuccessToast';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { createTrainee, createTrainer } from '../../services/userService';
 
-interface RegistrationProps {
-  role: Role;
-}
+const Registration = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const role = searchParams.get('role') as Role;
 
-const Registration = ({ role }: RegistrationProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -27,34 +26,54 @@ const Registration = ({ role }: RegistrationProps) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
 
+  if (!role) {
+    navigate('/join-us');
+    return null;
+  }
+
+  const isTrainer = role === 'trainer';
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!firstName) newErrors.firstName = 'First name is required';
     if (!lastName) newErrors.lastName = 'Last name is required';
-    if (role === 'trainer' && !specialization) newErrors.specialization = 'Specialization is required';
+    if (isTrainer && !specialization) {
+      newErrors.specialization = 'Specialization is required';
+    }
+    if (!isTrainer) {
+      if (!dateOfBirth) {
+        newErrors.dateOfBirth = 'Date of birth is required';
+      } else if (new Date(dateOfBirth) >= new Date()) {
+        newErrors.dateOfBirth = 'Date of birth must be in the past';
+      }
+      if (!address) newErrors.address = 'Address is required';
+    }
+
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (validate()) {
       setIsLoading(true);
-      setTimeout(() => {
-        setCredentials({
-          username: `${firstName.toLowerCase()}_${Math.floor(Math.random() * 1000)}`,
-          password: Math.random().toString(36).slice(-8)
-        });
-        setIsLoading(false);
-        toast.success("Account created successfully!");
-        // toast.custom((t) => (
-        //   <SuccessToast
-        //     message="Account created successfully!"
-        //     visible={t.visible}
-        //     onDismiss={() => toast.dismiss(t.id)}
-        //   />
-        // ));
+
+      const email = `${firstName.toLowerCase()}_${Math.floor(Math.random() * 1000)}@learn.com`;
+      // API CALL
+      try {
+        const response = isTrainer
+          ? await createTrainer({ firstName, lastName, specialization, email })
+          : await createTrainee({ firstName, lastName, dateOfBirth, address, email });
+
+        setCredentials(response);
         setIsSubmitted(true);
-      }, 2000);
+        toast.success('Account created successfully!');
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+        toast.error(message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -90,7 +109,7 @@ const Registration = ({ role }: RegistrationProps) => {
               alt="registration"
               className={styles.image}
             />
-            <div className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.fields}>
                 <Input
                   label="First name"
@@ -135,10 +154,10 @@ const Registration = ({ role }: RegistrationProps) => {
                         onChange={e => setSpecialization(e.target.value)}
                       >
                         <option value="">Please select</option>
-                        <option value="math">Mathematics</option>
-                        <option value="science">Science</option>
-                        <option value="language">Language</option>
-                        <option value="programming">Programming</option>
+                        <option value="MATHEMATICS">Mathematics</option>
+                        <option value="SCIENCE">Science</option>
+                        <option value="LANGUAGE">Language</option>
+                        <option value="PROGRAMMING">Programming</option>
                       </select>
                       <span className={styles.selectArrow}>
                         <IconChevronDownOutline24 />
@@ -153,10 +172,10 @@ const Registration = ({ role }: RegistrationProps) => {
                   text="Submit"
                   variant="prime"
                   fullWidth
-                  onClick={handleSubmit}
+                  type="submit"
                 />
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

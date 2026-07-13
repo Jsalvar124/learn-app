@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   min-height: 384px;
-  background: #FAFAFB;
+  background: var(--color-surface-alt);
   border-radius: 12px;
   display: flex;
   overflow: hidden;
@@ -22,7 +22,7 @@
   font-size: 48px;
   line-height: 68px;
   font-weight: 700;
-  color: #171A1F;
+  color: var(--color-neutral-900);
 }
 
 .description {
@@ -30,7 +30,7 @@
   font-size: 18px;
   line-height: 28px;
   font-weight: 400;
-  color: #171A1F;
+  color: var(--color-neutral-900);
   max-width: 460px;
 }
 

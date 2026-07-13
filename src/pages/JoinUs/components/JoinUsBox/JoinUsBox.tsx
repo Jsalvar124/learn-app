@@ -6,16 +6,16 @@ import styles from './JoinUsBox.module.css';
 interface JoinUsBoxProps {
     role: Role
     image: string;
-    onClick: () => void;
+    link: string;
 }
-const JoinUsBox = ({role, image, onClick}: JoinUsBoxProps) => (
+const JoinUsBox = ({role, image, link}: JoinUsBoxProps) => (
   <div className={styles.container}>
     <div className={styles.content}>
       <h2 className={styles.title}>Register as {role === 'trainer' ? 'Trainer' : 'Student'}</h2>
       <p className={styles.description}>
         Do consectetur proident proident id eiusmod deserunt consequat pariatur ad ex velit do Lorem reprehenderit.
       </p>
-      <Button text="Join us" variant="prime" size="lg" onClick={onClick} />
+      <Button text="Join us" variant="prime" size="lg" to={link} />
     </div>
     <img src={image} alt={role} className={styles.image} />
   </div>

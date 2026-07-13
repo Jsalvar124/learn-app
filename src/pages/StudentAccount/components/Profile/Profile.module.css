@@ -25,7 +25,7 @@
   height: 120px;
   border-radius: 8px;
   overflow: hidden;
-  background: #CFCBF3;
+  background: var(--color-accent-light);
   flex-shrink: 0;
 }
 

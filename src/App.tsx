@@ -1,34 +1,72 @@
 
 import { Header } from './layout/Header';
-// import { Login } from './pages/Login';
+import { Login } from './pages/Login';
 import { Footer } from './layout/Footer';
-// import { JoinUs } from './pages/JoinUs';
+import { JoinUs } from './pages/JoinUs';
 import { StudentAccount } from './pages/StudentAccount';
-import { useState } from 'react';
-import avatar from './assets/student-avatar-cropped.png'
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Registration } from './pages/Registration';
+import { Home } from './pages/Home';
+import { NotFound } from './pages/NotFound';
+import { Trainings } from './pages/Trainings';
+import { ChangePassword } from './pages/ChangePassword';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUserData } from './store/slices/userSlice';
+import { decodeToken } from './helpers/decodeToken';
+import type { AppDispatch } from './store';
+import { getUserProfileThunk } from './store/thunks/userThunk';
+import PrivateRoute from './routes/PrivateRoute';
+import TrainerRoute from './routes/TrainerRoute';
+import { AddTraining } from './pages/AddTraining';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user] = useState({
-    userName: 'Marta_st',
-    email: 'marta_12334@gmail.com',
-    avatar: avatar,
-  });
+    const dispatch = useDispatch<AppDispatch>();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const decoded = decodeToken(token);
+
+      dispatch(setUserData({
+        username: decoded.sub,
+        role: decoded.userType,
+        token,
+      }));
+
+      dispatch(getUserProfileThunk({ username: decoded.sub, role: decoded.userType }));
+    } catch (err) {
+      // token is malformed/corrupted — clear it rather than leaving bad state
+      localStorage.removeItem("token");
+    }
+  }, []); // run once, on mount
 
   return (
     <div className="app">
-      <Header
-        isLoggedIn={isLoggedIn}
-        user={user}
-        onSignIn={() => setIsLoggedIn(true)}
-        onSignOut={() => setIsLoggedIn(false)}
-      />
+      <Header />
       <main className="main">
-        {/* page content */}
-        {/* <Login /> */}
-        <StudentAccount />
-        {/* <JoinUs /> */}
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/join-us" element={<JoinUs />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/home" element={<Home />} />
+          {/* Protected routes — must be logged in */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/my-account" element={<StudentAccount />} />
+            <Route path="/trainings" element={<Trainings />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            {/* Protected + role-restricted — must be logged in AND a trainer */}
+            <Route element={<TrainerRoute />}>
+              <Route path="/trainings/add" element={<AddTraining />} />
+            </Route>
+          </Route>
+
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
       <Footer />
     </div>

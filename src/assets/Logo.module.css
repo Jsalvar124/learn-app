@@ -10,5 +10,5 @@
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 24px;
-  color: #171A1F;
+  color: var(--color-neutral-900);
 }

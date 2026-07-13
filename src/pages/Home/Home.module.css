@@ -1,0 +1,120 @@
+.page {
+  width: 100%;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1176px;
+  margin: 0 auto;
+  padding: 48px 24px 0;
+  text-align: center;
+}
+
+.heroTitle {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  line-height: 78px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  margin-bottom: 24px;
+}
+
+.heroText {
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 400;
+  color: var(--color-neutral-500);
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+.video {
+  width: 100%;
+  max-width: 957px;
+  aspect-ratio: 957 / 540;
+  border-radius: 4px;
+  background: rgba(23, 26, 31, 0.3);
+  object-fit: cover;
+}
+
+/* Join us */
+.joinSection {
+  position: relative; /* needed so .joinOval can anchor to this card, not the page */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1176px;
+  margin: 96px auto 0;
+  background: var(--color-neutral-150);
+  border-radius: var(--button-radius);
+  overflow: hidden;
+  padding: 76px 24px;
+  text-align: center;
+}
+
+.joinOval {
+  position: absolute;
+  top: 90%;
+  left: -73px;
+  transform: translateY(-50%);
+  width: 295px;
+  height: 295px;
+  background: var(--color-primary);
+  opacity: 0.85;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.joinContent {
+  position: relative;
+  z-index: 1;
+  max-width: 510px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.joinTitle {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  line-height: 68px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 24px;
+}
+
+.joinText {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  color: var(--color-neutral-900);
+  margin-bottom: 32px;
+}
+
+@media (max-width: 600px) {
+  .heroTitle {
+    font-size: 36px;
+    line-height: 48px;
+  }
+
+  .heroText {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .joinTitle {
+    font-size: 32px;
+    line-height: 44px;
+  }
+
+  .joinOval {
+    width: 180px;
+    height: 180px;
+    left: -90px;
+  }
+}

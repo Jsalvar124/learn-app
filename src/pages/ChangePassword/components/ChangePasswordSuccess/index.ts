@@ -1,0 +1,1 @@
+export { default as ChangePasswordSuccess } from "./ChangePasswordSuccess";

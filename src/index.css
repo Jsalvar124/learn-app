@@ -8,6 +8,8 @@
 
 html, body, #root {
   height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-neutral-900);
 }
 
 .app {
@@ -41,7 +43,24 @@ html, body, #root {
   --color-neutral-400: #BCC1CA;
   --color-neutral-450: #A7ADB7;
   --color-neutral-500: #9095A0;
+  --color-neutral-700: #565E6C;
   --color-neutral-900: #171A1F;
+
+  /* Surfaces */
+  --color-bg: #FFFFFF;
+  --color-surface: #F3F4F6;
+  --color-surface-alt: #FAFAFB;
+  --color-border: #DEE1E6;
+  --color-border-alt: #EAECEF;
+  --color-accent-light: #CFCBF3;
+
+  /* Status badges */
+  --color-badge-purple: #EEEBFB;
+  --color-badge-blue: #E8F0FE;
+  --color-badge-green: #E3F9F0;
+
+  /* Shadows */
+  --shadow-card: 0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1f;
 
   /* Fonts */
   --font-heading: 'Montserrat', sans-serif;
@@ -50,4 +69,30 @@ html, body, #root {
   /* Shared */
   --button-radius: 6px;
   --input-radius: 6px;
+}
+
+[data-theme="dark"] {
+  /* Neutrals */
+  --color-neutral-150: #12121E;
+  --color-neutral-400: #2C2C42;
+  --color-neutral-450: #5C6070;
+  --color-neutral-500: #8A909E;
+  --color-neutral-700: #A0A8B4;
+  --color-neutral-900: #E4E6F0;
+
+  /* Surfaces */
+  --color-bg: #1A1A2E;
+  --color-surface: #22223A;
+  --color-surface-alt: #1E1E30;
+  --color-border: #2C2C42;
+  --color-border-alt: #383854;
+  --color-accent-light: #3D3673;
+
+  /* Status badges */
+  --color-badge-purple: #2A2440;
+  --color-badge-blue: #1C2E4A;
+  --color-badge-green: #1A3329;
+
+  /* Shadows */
+  --shadow-card: 0 0 0 1px var(--color-border);
 }

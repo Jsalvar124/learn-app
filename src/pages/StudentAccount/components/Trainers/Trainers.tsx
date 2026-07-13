@@ -6,14 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '../../../../components/common/Button';
-
-interface Trainer {
-  name: string;
-  specialization: string;
-}
+import type { TrainerSummary } from '../../../../types/user';
 
 interface TrainersProps {
-  trainers: Trainer[];
+  trainers: TrainerSummary[];
   onAddTrainer?: () => void;
 }
 
@@ -34,8 +30,8 @@ const Trainers = ({ trainers, onAddTrainer }: TrainersProps) => (
         </TableHead>
         <TableBody>
           {trainers.map((trainer) => (
-            <TableRow key={trainer.name}>
-              <TableCell className={styles.nameCell}>{trainer.name}</TableCell>
+            <TableRow key={trainer.username}>
+              <TableCell className={styles.nameCell}>{`${trainer.firstName} ${trainer.lastName}`}</TableCell>
               <TableCell className={styles.cell}>{trainer.specialization}</TableCell>
             </TableRow>
           ))}

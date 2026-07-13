@@ -4,23 +4,30 @@ import Logo from '../../assets/Logo';
 import { Button } from '../../components/common/Button';
 import { MobileMenu } from './components/MobileMenu';
 import { DesktopMenu } from './components/DesktopMenu';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDefaultAvatarSelector, getIsAuthSelector, getUserNameSelector } from '../../store/selectors';
+import type { AppDispatch } from '../../store';
+import { removeUserData } from '../../store/slices/userSlice';
+import { useTheme } from '../../hooks/useTheme';
 
-interface User {
-  userName: string;
-  email: string;
-  avatar: string;
-}
 
-interface HeaderProps {
-  isLoggedIn: boolean;
-  user?: User;
-  onSignIn?: () => void;
-  onSignOut?: () => void;
-}
-
-const Header = ({ isLoggedIn, user, onSignIn, onSignOut }: HeaderProps) => {
+const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
+  const isAuth = useSelector(getIsAuthSelector);
+  const username = useSelector(getUserNameSelector);
+  const avatar = useSelector(getDefaultAvatarSelector)
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    dispatch(removeUserData());
+    setDesktopMenuOpen(false);
+    navigate("/home")
+  }
 
   return (
     <>
@@ -39,24 +46,25 @@ const Header = ({ isLoggedIn, user, onSignIn, onSignOut }: HeaderProps) => {
           </div>
 
           <div className={styles.actions}>
-            {isLoggedIn && user ? (
+            {isAuth ? (
               <div className={styles.userSection}>
-                <span className={styles.userName}>{user.userName}</span>
+                <span className={styles.userName}>{username}</span>
                 <button className={styles.avatarButton} onClick={() => setDesktopMenuOpen(!desktopMenuOpen)}>
-                  <img src={user.avatar} alt="avatar" className={styles.avatarImg} />
+                  <img src={avatar} alt="avatar" className={styles.avatarImg} />
                 </button>
                 {desktopMenuOpen && (
                 <DesktopMenu
-                  user={user}
-                  onSignOut={() => { onSignOut?.(); setDesktopMenuOpen(false); }}
+                  onSignOut={handleSignOut}
                   onClose={() => setDesktopMenuOpen(false)}
+                  isDark={isDark}
+                  toggleTheme={toggleTheme}
                 />
               )}
               </div>
             ) : (
               <>
-                <a href="#" className={styles.signIn} onClick={onSignIn}>Sign in</a>
-                <Button text="Join us" variant="prime" size="sm" />
+                <Link to="/login" className={styles.signIn} >Sign in</Link>
+                <Button text="Join us" variant="prime" size="sm" to="/join-us" />
               </>
             )}
           </div>
@@ -65,11 +73,10 @@ const Header = ({ isLoggedIn, user, onSignIn, onSignOut }: HeaderProps) => {
 
       <MobileMenu
         isOpen={mobileMenuOpen}
-        isLoggedIn={isLoggedIn}
-        user={user}
         onClose={() => setMobileMenuOpen(false)}
-        onSignIn={onSignIn}
-        onSignOut={onSignOut}
+        onSignOut={handleSignOut}
+        isDark={isDark}
+        toggleTheme={toggleTheme}
       />
     </>
   );

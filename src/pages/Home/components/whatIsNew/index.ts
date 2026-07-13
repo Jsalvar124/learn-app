@@ -1,0 +1,1 @@
+export { default as WhatIsNew } from './WhatIsNew'

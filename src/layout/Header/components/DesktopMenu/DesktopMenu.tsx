@@ -1,24 +1,20 @@
-import { useState } from 'react';
 import styles from './DesktopMenu.module.css';
-import { IconUser3Outline24, IconArrowDoorOut2Outline24 } from 'nucleo-core-essential-outline-24';
-
-// moon/night icon
-import { IconToggleOutline24 } from 'nucleo-core-essential-outline-24';
-
-interface User {
-  userName: string;
-  email: string;
-  avatar: string;
-}
+import { IconUser3Outline24, IconArrowDoorOut2Outline24, IconToggleOutline24 } from 'nucleo-core-essential-outline-24';
+import { Link } from 'react-router-dom';
+import { getDefaultAvatarSelector, getUserNameSelector, getUserProfileSelector } from '../../../../store/selectors';
+import { useSelector } from 'react-redux';
 
 interface DesktopMenuProps {
-  user: User;
   onSignOut?: () => void;
   onClose?: () => void;
+  isDark: boolean;
+  toggleTheme: () => void;
 }
 
-const DesktopMenu = ({ user, onSignOut, onClose }: DesktopMenuProps) => {
-  const [nightMode, setNightMode] = useState(false);
+const DesktopMenu = ({ onSignOut, onClose, isDark, toggleTheme }: DesktopMenuProps) => {
+  const avatar = useSelector(getDefaultAvatarSelector);
+  const username = useSelector(getUserNameSelector);
+  const profile = useSelector(getUserProfileSelector);
 
   return (
     <>
@@ -27,27 +23,27 @@ const DesktopMenu = ({ user, onSignOut, onClose }: DesktopMenuProps) => {
 
         <div className={styles.userSection}>
           <div className={styles.avatar}>
-            <img src={user.avatar} alt="avatar" />
+            <img src={avatar} alt="avatar" />
           </div>
           <div className={styles.userInfo}>
-            <span className={styles.userName}>{user.userName}</span>
-            <span className={styles.userEmail}>{user.email}</span>
+            <span className={styles.userName}>{username}</span>
+            <span className={styles.userEmail}>{profile?.email}</span>
           </div>
         </div>
 
         <div className={styles.divider} />
 
         <nav className={styles.nav}>
-          <a href="#" className={styles.navItem}>
+          <Link to="/my-account" className={styles.navItem}>
             <IconUser3Outline24 />
             <span>My Account</span>
-          </a>
+          </Link>
           <div className={styles.navItem}>
             <IconToggleOutline24 />
             <span>Night mode</span>
             <button
-              className={`${styles.toggle} ${nightMode ? styles.toggleOn : styles.toggleOff}`}
-              onClick={() => setNightMode(!nightMode)}
+              className={`${styles.toggle} ${isDark ? styles.toggleOn : styles.toggleOff}`}
+              onClick={toggleTheme}
             >
               <span className={styles.toggleCircle} />
             </button>
